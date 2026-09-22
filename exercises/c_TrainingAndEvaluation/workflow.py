@@ -1,8 +1,6 @@
 # workflow.py
-import os
-from flytekit import workflow, task
+from flytekit import workflow
 from flytekitplugins.domino.task import DominoJobConfig, DominoJobTask
-from flytekitplugins.domino.task import DatasetSnapshot  
 
 
 @workflow

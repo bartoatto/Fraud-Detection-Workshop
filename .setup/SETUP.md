@@ -36,7 +36,7 @@ Work through this once, in order — each exercise's output feeds the next.
   python exercises/c_TrainingAndEvaluation/trainer_gnb.py
   python exercises/c_TrainingAndEvaluation/trainer_xgb.py
   ```
-  Skip `workflow.py` (the Domino Flow variant) — it has a known broken folder-path bug.
+  `workflow.py` runs these same three trainers as an orchestrated Domino Flow instead, if you'd rather demo Flows.
 - [ ] In Experiment Manager, select all 3 runs and Compare — XGBoost should come out on top on ROC AUC, matching the exercise instructions' own hint.
 - [ ] Register the XGBoost run's model to the Model Registry.
 

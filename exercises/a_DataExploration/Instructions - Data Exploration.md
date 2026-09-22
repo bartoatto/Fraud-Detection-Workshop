@@ -14,15 +14,17 @@ In this phase, we will begin the process of exploring a transactional dataset to
 
 4.  Review Workspace UI & Lefthand Sidebar
 
-5.  Open the Notebook /mnt/code..../.../...
+5.  Open the notebook `exercises/a_DataExploration/data_exploration_notebook.ipynb`
 
-8.  Run notebook cells (either manually or automatically)
+6.  Run notebook cells (either manually or automatically)
 
-9.  Review generated MetaData and Plots
+7.  Review generated MetaData and Plots
 
-10. Follow Path to Updated Location in Workspace.
+8.  Review the generated plots under `artifacts/a_data_exploration/`
 
-11.  Save and Commit Code
+9.  Confirm `clean_cc_transactions.csv` now sits alongside the raw file in the project's Domino Dataset
+
+10. Save and Commit Code
 
 This concludes the "1. Data Exploration" section of the workshop
 

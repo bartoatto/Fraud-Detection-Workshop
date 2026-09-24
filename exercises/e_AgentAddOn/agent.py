@@ -9,7 +9,6 @@ import json
 import os
 from pathlib import Path
 
-import anthropic
 import mlflow
 from domino.agents.tracing import add_tracing, init_tracing
 from domino.agents.logging import DominoRun
@@ -154,6 +153,10 @@ def investigation_evaluator(span):
 
 @add_tracing(name="fraud_investigation_agent", evaluator=investigation_evaluator)
 def investigate_transaction(transaction: dict) -> dict:
+    # Imported here, not at module scope, so app.py can still start and show a clear
+    # message if the environment doesn't carry the anthropic package.
+    import anthropic
+
     client = anthropic.Anthropic()
 
     txn_for_prompt = {k: v for k, v in transaction.items() if k != "label"}

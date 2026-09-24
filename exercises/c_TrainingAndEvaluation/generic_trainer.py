@@ -21,7 +21,7 @@ from sklearn.metrics import (
 import mlflow
 import mlflow.sklearn
 from mlflow.models.signature import infer_signature
-
+ 
 from domino_short_id import domino_short_id
 from flytekitplugins.domino.artifact import Artifact, DATA, MODEL, REPORT
 
@@ -703,7 +703,14 @@ def train_and_log(
             model,
             artifact_path=f"{name.lower().replace(' ', '_')}_model",
             signature=signature,
-            input_example=input_example
+            input_example=input_example,
+            # Stated explicitly rather than inferred: MLflow would otherwise pin
+            # flytekitplugins-dominojob, which isn't on PyPI, and the endpoint image
+            # would fail to build.
+            pip_requirements=[
+                "mlflow", "cloudpickle", "joblib",
+                "numpy", "pandas", "scikit-learn", "xgboost",
+            ]
         )
 
         mlflow.set_tag("pipeline", "classifier_training")
@@ -767,13 +774,40 @@ def train_and_log(
     return ret
 
 
+def find_dataset_file(filename: str) -> str:
+    """Locate a file in the project's Dataset.
+
+    Workspaces and Jobs mount the read-write Dataset at domino_dataset_dir. Some
+    execution types mount a snapshot elsewhere instead, so fall back to looking under
+    the datasets root.
+    """
+    direct = os.path.join(domino_dataset_dir, filename)
+    if os.path.exists(direct):
+        return direct
+
+    root = domino_data_dir
+    if os.path.isdir(root):
+        for dirpath, dirnames, filenames in os.walk(root):
+            if filename in filenames:
+                return os.path.join(dirpath, filename)
+            # Datasets can be large; the mount points sit near the top, so don't
+            # descend the whole tree looking for it.
+            if dirpath[len(root):].count(os.sep) >= 3:
+                dirnames[:] = []
+
+    raise FileNotFoundError(
+        f"{filename} not found at {direct} or anywhere under {root}. "
+        "Run the previous exercise first - each one writes the file the next one reads."
+    )
+
+
 def train_fraud(model_obj, model_name, transformed_df_filename, random_state=None):
 
     # Set up experiment
     mlflow.set_experiment(experiment_name)
 
     # Load transformed data
-    transformed_df_path = f"{domino_dataset_dir}/{transformed_df_filename}"
+    transformed_df_path = find_dataset_file(transformed_df_filename)
     transformed_df = pd.read_csv(transformed_df_path)
     
     # Split data 

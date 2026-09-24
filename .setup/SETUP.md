@@ -17,8 +17,9 @@ This is required, not optional — Exercise A reads the raw transaction data fro
 Work through this once, in order — each exercise's output feeds the next.
 
 ### 1. Environment sanity check
-- [ ] Open a workspace and confirm these import cleanly: `pandas`, `numpy`, `sklearn`, `xgboost`, `mlflow`, `joblib`, `flytekit`, `flytekitplugins.domino`, `domino` (python-domino), `streamlit`, `ydata_profiling`.
-- [ ] If `ydata_profiling` fails to import with `ModuleNotFoundError: No module named 'pkg_resources'`, your environment was built before the `setuptools<81` pin was added to `environment.md`/`Dockerfile` — update the pip install line to match and rebuild the environment. Confirmed to fix it: newer `setuptools` dropped `pkg_resources`, which `ydata_profiling` still needs.
+- [ ] Open a workspace terminal and run `python .setup/verify_environment.py` — it checks every
+  package the workshop needs and prints PASS or the missing ones. Or check by hand: `pandas`, `numpy`, `sklearn`, `xgboost`, `mlflow`, `joblib`, `domino` (python-domino), `streamlit`. `ydata_profiling` is optional - Exercise B skips its EDA report if it isn't installed.
+- [ ] If `ydata_profiling` fails to import with `ModuleNotFoundError: No module named 'pkg_resources'`, your environment was built before the `setuptools<81` pin was added to `environment.md`/`Dockerfile` — update the pip install line to match and rebuild the environment. Confirmed to fix it: newer `setuptools` dropped `pkg_resources`, which `ydata_profiling` still needs (4.18 included).
 
 ### 2. Exercise A — Data Exploration
 - [ ] Confirm "Populate the Domino Dataset" above is done first.
@@ -36,12 +37,23 @@ Work through this once, in order — each exercise's output feeds the next.
   python exercises/c_TrainingAndEvaluation/trainer_gnb.py
   python exercises/c_TrainingAndEvaluation/trainer_xgb.py
   ```
-  `workflow.py` runs these same three trainers as an orchestrated Domino Flow instead, if you'd rather demo Flows.
+- [ ] Optionally run them as three parallel Jobs instead, via the Domino API:
+  ```
+  python exercises/c_TrainingAndEvaluation/job_trainer_ada.py
+  python exercises/c_TrainingAndEvaluation/job_trainer_gnb.py
+  python exercises/c_TrainingAndEvaluation/job_trainer_xgb.py
+  ```
+  These submit Jobs and return immediately - watch them under Jobs. Sync the workspace first,
+  and check the `Medium` hardware tier they request exists on your deployment.
 - [ ] In Experiment Manager, select all 3 runs and Compare — XGBoost should come out on top on ROC AUC, matching the exercise instructions' own hint.
 - [ ] Register the XGBoost run's model to the Model Registry.
 
 ### 5. Exercise D — Delivery & Hosting
 - [ ] Deploy a Model API endpoint from the registered XGBoost model. Copy its endpoint URL and auth token.
+  If the endpoint never starts and the logs show `no app loaded. GAME OVER` with
+  `configparser.SafeConfigParser`, the environment was built without the last
+  instruction in `.setup/Dockerfile` - that line is what makes endpoints work on
+  Python 3.12.
 - [ ] Set `xgboost_endpoint` / `xgboost_auth` as environment variables (same pattern for `adaboost_*`/`gaussiannb_*` if you want all three selectable in the UI). Project → Settings → Environment Variables is the most reliable place — those apply project-wide to workspaces, jobs, and apps alike. Some Domino versions also offer a per-App environment variable screen; either works, since `app.py` just reads `os.environ.get(...)` regardless of which layer set it.
 - [ ] Publish `app.py` as a Domino App and submit a test transaction with the XGBoost model selected.
 - [ ] **Confirm the returned score is a real model prediction, not the fallback heuristic** — the app doesn't error if the endpoint env vars are missing or wrong, it just silently returns a hand-coded 6-flag score instead. If in doubt, temporarily unset the env var and compare the two outputs so you know what the fallback looks like.

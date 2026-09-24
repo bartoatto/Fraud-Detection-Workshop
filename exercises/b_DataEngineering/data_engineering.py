@@ -172,24 +172,29 @@ if __name__ == "__main__":
         print('saved to ', f"{domino_dataset_dir}/{features_filename}")
     
         # Step 7: Generate comprehensive EDA report using ydata-profiling
-        from ydata_profiling import ProfileReport  # imported here b/c importing outside main slows down other references.
-        profile = ProfileReport(
-            clean_df, 
-            title="Credit Card Fraud Detection - EDA Report",
-            explorative=True,
-            minimal=True
-        )
-        
         # Save EDA report as HTML in artifacts directory
         eda_path = f"{domino_artifact_dir}/preprocessing_report.html"
-        profile.to_file(eda_path)
+        try:
+            from ydata_profiling import ProfileReport  # imported here b/c importing outside main slows down other references.
+            profile = ProfileReport(
+                clean_df, 
+                title="Credit Card Fraud Detection - EDA Report",
+                explorative=True,
+                minimal=True
+            )
+            profile.to_file(eda_path)
+        except ImportError:
+            # Optional dependency - the rest of the exercise doesn't need it.
+            eda_path = None
+            print("ydata-profiling not installed - skipping the EDA report.")
     
         # Step 8: Log all artifacts and metrics to MLflow for tracking
         # Log input data reference
         mlflow.log_artifact(clean_path, artifact_path="data")
         
         # Log EDA report
-        mlflow.log_artifact(eda_path, artifact_path="eda")
+        if eda_path:
+            mlflow.log_artifact(eda_path, artifact_path="eda")
         
         # Log preprocessing statistics
         mlflow.log_param("num_rows_loaded", len(features_df))

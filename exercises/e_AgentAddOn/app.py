@@ -21,6 +21,16 @@ st.write(
     "click here produces a real, inspectable trace in Domino."
 )
 
+try:
+    import anthropic  # noqa: F401
+except ImportError:
+    st.error(
+        "The `anthropic` package isn't installed in this compute environment. "
+        "Add `RUN pip install --no-cache-dir anthropic` to the environment "
+        "definition and rebuild it — the rest of the workshop doesn't need it."
+    )
+    st.stop()
+
 if not os.environ.get("ANTHROPIC_API_KEY"):
     st.error(
         "ANTHROPIC_API_KEY is not set. Add it as a project or app environment "

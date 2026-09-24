@@ -16,7 +16,7 @@ Python script executed as a Domino Job. Reads the cleaned data from the Domino D
 ### 3 - Model Training & Evaluation
 Three training scripts (AdaBoost, GaussianNB, XGBoost) run from a workspace terminal, each logging metrics, plots, and its model to the Experiment Manager. Compare the runs, then register the best model to the Model Registry.
 
-An optional Domino Flow (`workflow.py`) runs the same three trainers as orchestrated job tasks and compares the results.
+The matching `job_trainer_*.py` scripts submit the same three trainers as parallel Domino Jobs through the Domino API, if you would rather not run them one at a time.
 
 ### 4 - Delivery & Hosting
 - Hosted REST API endpoints

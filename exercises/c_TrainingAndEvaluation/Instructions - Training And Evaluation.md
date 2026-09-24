@@ -1,5 +1,5 @@
 # Training And Evaluation
-In this phase, we will simultaneously train 3 models, evaluate them, and register the best using a coordinated workflow.  We will execute a Domino Flow that trains the three models, evaluate the models using the Domino Experiment Manager, and register the best ones in the Model Registry.
+In this phase, we will train 3 models, evaluate them, and register the best one.  We will run the three training scripts, compare them in the Domino Experiment Manager, and register the winner in the Model Registry.
 
 ## Exercise Instructions
 
@@ -12,6 +12,24 @@ python exercises/c_TrainingAndEvaluation/trainer_ada.py
 python exercises/c_TrainingAndEvaluation/trainer_gnb.py
 python exercises/c_TrainingAndEvaluation/trainer_xgb.py
 ```
+
+### Optional: run the three as parallel Jobs
+
+Instead of running them one after another in the terminal, you can submit all three as
+Domino Jobs that train at the same time, each in its own container:
+
+```
+python exercises/c_TrainingAndEvaluation/job_trainer_ada.py
+python exercises/c_TrainingAndEvaluation/job_trainer_gnb.py
+python exercises/c_TrainingAndEvaluation/job_trainer_xgb.py
+```
+
+Each of these returns immediately - it submits a Job through the Domino API rather than
+training in your terminal. Watch them under **Jobs**. Sync your workspace first, because Jobs
+run the project's files rather than your unsaved edits, and note the scripts request the
+`Medium` hardware tier, so change `hwtier` if your deployment names tiers differently.
+
+The runs land in the same experiment either way, so Compare works the same.
 
 Click "Experiment Manager"  (Main Window, Left-Hand Column)
 
@@ -26,6 +44,13 @@ Click "Register Model From Run" in Upper Right Hand
 Create model name
 
 This concludes the "3. MODEL TRAINING and EVALUATION" section of the workshop.
+
+### Other files in this folder
+
+`generic_trainer.py` is the shared training code the three trainers call - open it to see how
+the metrics, plots and model are logged. `train_fraud.ipynb` is a notebook that does the same
+thing end to end, if you prefer working that way. `workflow.py` and `compare.py` are for Domino
+Flows, Domino's orchestration layer, and are not used in this exercise.
 
 ## New Domino Concepts
 

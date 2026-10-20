@@ -1,42 +1,22 @@
 # Data Exploration
-In this phase, we will begin the process of exploring a transactional dataset to see if it will be good for model training.  We will read a CSV file from a Domino Dataset into a Dataframe, clean the data, generate some visualizations, and save the cleaned data back to that Domino Dataset.  We will begin from within your copy of the "Fraud Detection Workshop" project.
-
-**Prerequisite:** the raw `raw_cc_transactions.csv.gz` file must already be in this project's Domino Dataset before this exercise will run — see `.setup/SETUP.md`, "Populate the Domino Dataset." This is a one-time setup step per project.
+Explore a table of credit card transactions the way a stats programmer would before building anything on it: load it, clean it, look at it, and save the clean version. The raw file is already on the project's NetApp Volume, so there is nothing to upload.
 
 ## Exercise Instructions
 
-1.  Click "Workspace" (Left-hand column) and click "Jupyter Lab"
-
-2.  Click "Next" 4x and then "Create"
-    - Feel free to look around but do not change anything.
-
-3.  Review Workspace Creation Workflow
-
-4.  Review Workspace UI & Lefthand Sidebar
-
-5.  Open the notebook `exercises/a_DataExploration/data_exploration_notebook.ipynb`
-
-6.  Run notebook cells (either manually or automatically)
-
-7.  Review generated MetaData and Plots
-
-8.  Review the generated plots under `artifacts/a_data_exploration/`
-
-9.  Confirm `clean_cc_transactions.csv` now sits alongside the raw file in the project's Domino Dataset
-
-10. Save and Commit Code
-
-This concludes the "1. Data Exploration" section of the workshop
+1. Click **Workspaces** (left-hand column) and launch **JupyterLab**.
+   - Walk through the launch dialog: environment, hardware tier, and the IDE choice.
+2. Open `exercises/a_DataExploration/data_exploration_notebook.ipynb`.
+3. Run the cells top to bottom.
+4. Look at the summary tables and the plots.
+5. Open `artifacts/a_data_exploration/` to see the saved plots, and confirm `clean_cc_transactions.csv` now sits beside the raw file on the NetApp Volume (`/domino/netapp-volumes/partner-sce-fraud-data/`, or `/mnt/netapp-volumes/...` in a Git-based project).
+6. Sync your changes (commit them, if the project is Git-backed).
 
 ## New Domino Concepts
-**Workspaces:** 
-> A Domino workspace is an interactive session where you can conduct research, analyze data, train models, and more. Use workspaces to work in the development environment of your choice, like Jupyter notebooks, RStudio, VS Code, and many other customizable environments.
 
-**Domino Dataset:**
-> A Domino Dataset is a versioned, centralized data repository that enables teams to share, track, and manage data assets across projects and experiments. This ensures data consistency and reproducibility while providing governance controls and lineage tracking, eliminating the need for data scientists to manage their own copies of data.
+**Workspaces:** An interactive session in the IDE of your choice (JupyterLab, VS Code, RStudio and others) running on the environment and hardware you pick.
 
-**Compute Environments:**
-> Compute Environments are pre-configured, containerized environments that package all the tools, libraries, and dependencies needed for data science work. They enable instant reproducibility and portability of work across teams while eliminating environment setup overhead and "it works on my machine" issues.
+**Compute Environments:** A container image holding the tools, languages and packages a project needs, so everyone gets the same setup.
 
-**Hardware Tiers:**
-> Hardware Tiers are predefined compute resource configurations (CPU, GPU, memory) that users can select based on their workload requirements. This allows organizations to optimize costs by right-sizing resources for each task while giving data scientists flexibility to scale up for intensive computations without IT intervention.
+**Hardware Tiers:** Preset CPU, GPU and memory sizes you choose per workspace or job.
+
+**NetApp Volumes:** Shared, snapshot-able storage mounted into workspaces, jobs and apps. The data stays on the volume, separate from the code, and the volume can be shared across projects.

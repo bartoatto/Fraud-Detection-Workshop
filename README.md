@@ -1,27 +1,11 @@
-# Fraud-Detection-Workshop
-This workshop gives attendees hands-on experience with the Domino Data Lab platform by working through the complete model development and delivery lifecycle, from data preparation to model delivery.
+# Domino Platform Workshop - Life Sciences SCE edition
 
-## Setup
-Before starting, the raw transaction data must be in the project's Domino Dataset — see `.setup/SETUP.md`. The compute environment spec is in `.setup/environment.md`.
+A hands-on session on the Domino platform primitives, using a credit card fraud dataset as the working example. Work through the exercises in order; each one builds on the last.
 
-## Exercises
-Each exercise directory contains the instructions, notebooks, and scripts needed to complete it. Each builds on the previous one, so they must be completed in order.
+| # | Folder | What you do |
+|---|--------|-------------|
+| A | `exercises/a_DataExploration` | Launch a workspace, open a notebook, clean and plot the data |
+| B | `exercises/b_DataEngineering` | Run feature engineering as a Domino Job |
+| C | `exercises/c_ReviewApp` | Publish the Transaction Review Desk app and record review decisions |
 
-### 1 - Data Exploration
-Interactive notebook. Reads the raw transaction data from the project's Domino Dataset into a dataframe, removes dirty data, generates plots, and saves the cleaned data back to the Dataset.
-
-### 2 - Data Engineering
-Python script executed as a Domino Job. Reads the cleaned data from the Domino Dataset, adds derived columns, normalizes/scales/encodes the features, saves the result to the Dataset, and logs the preprocessing pipeline plus an EDA report to the Experiment Manager.
-
-### 3 - Model Training & Evaluation
-Three training scripts (AdaBoost, GaussianNB, XGBoost) run from a workspace terminal, each logging metrics, plots, and its model to the Experiment Manager. Compare the runs, then register the best model to the Model Registry.
-
-The matching `job_trainer_*.py` scripts submit the same three trainers as parallel Domino Jobs through the Domino API, if you would rather not run them one at a time.
-
-### 4 - Delivery & Hosting
-- Hosted REST API endpoints
-- Hosted web apps
-- Launchers
-
-### Optional Add-On - Agent Investigation
-A small LLM agent that investigates a flagged transaction using two mock lookup tools and returns a recommendation, traced end to end with Domino's GenAI tracing. Requires the `anthropic` package and an `ANTHROPIC_API_KEY`, so it is not part of the core exercise flow — see `exercises/e_AgentAddOn/`.
+Each folder has an `Instructions` file. The data lives on the NetApp Volume `partner-sce-fraud-data`, which is attached to the project, and shared code is in `common/`. Files the exercises create go to that volume and to `artifacts/`.

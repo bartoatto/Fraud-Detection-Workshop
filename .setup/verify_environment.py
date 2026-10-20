@@ -6,16 +6,14 @@ Run this in a workspace terminal after building the environment:
 
 import importlib
 
-# Everything exercises A-D actually import.
+# Everything exercises A-C actually import.
 REQUIRED = [
-    "pandas", "numpy", "sklearn", "xgboost", "mlflow",
-    "joblib", "matplotlib", "seaborn", "streamlit",
+    "pandas", "numpy", "matplotlib", "seaborn", "streamlit",
 ]
 # Nice to have, but the workshop degrades gracefully without them.
 OPTIONAL = [
     ("ydata_profiling", "Exercise B skips its EDA report"),
-    ("domino", "python-domino; not used by the core exercises"),
-    ("anthropic", "only needed for the optional agent add-on"),
+    ("domino", "python-domino; not used by the exercises"),
 ]
 
 def version(name):

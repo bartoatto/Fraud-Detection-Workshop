@@ -44,6 +44,8 @@ domino_datasource_dir = os.environ.get("DOMINO_DATASETS_DIR","/domino/datasets/"
 domino_data_dir = os.environ.get("DOMINO_DATASETS_DIR","/domino/datasets/")
 if is_git_based_project == "true":
     domino_dataset_dir = f"{domino_data_dir}/{domino_project_name}/{domino_username}"
+    if not os.path.isdir(domino_dataset_dir) and os.path.isdir(f"{domino_data_dir}/{domino_project_name}"):
+        domino_dataset_dir = f"{domino_data_dir}/{domino_project_name}"
 else:
     domino_dataset_dir = f"{domino_data_dir}/local/{domino_project_name}"
 

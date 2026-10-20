@@ -1,8 +1,13 @@
 # workflow.py
 from flytekit import workflow
-from flytekitplugins.domino.task import DominoJobConfig, DominoJobTask
+from flytekitplugins.domino.task import DatasetSnapshot, DominoJobConfig, DominoJobTask
 
 TRAINER_DIR = "exercises/c_TrainingAndEvaluation"
+
+
+# Flow jobs do not get the project's read-write Dataset, so mount a snapshot of it that
+# holds transformed_cc_transactions.csv (snapshot 1, taken after Exercise B).
+DATASET_SNAPSHOTS = [DatasetSnapshot(Id="6ab214b5e13dce03e8d45ac0", Name="Fraud-Detection-Workshop", Version=1)]
 
 
 def _command(script: str) -> str:
@@ -11,7 +16,7 @@ def _command(script: str) -> str:
 
 ada_training_task = DominoJobTask(
     name='Train AdaBoost classifier',
-    domino_job_config=DominoJobConfig(Command=_command("trainer_ada.py")),
+    domino_job_config=DominoJobConfig(Command=_command("trainer_ada.py"), DatasetSnapshots=DATASET_SNAPSHOTS),
     inputs={'transformed_filename': str},
     outputs={'results': str},
     use_latest=True,
@@ -19,7 +24,7 @@ ada_training_task = DominoJobTask(
 
 gnb_training_task = DominoJobTask(
     name='Train GaussianNB classifier',
-    domino_job_config=DominoJobConfig(Command=_command("trainer_gnb.py")),
+    domino_job_config=DominoJobConfig(Command=_command("trainer_gnb.py"), DatasetSnapshots=DATASET_SNAPSHOTS),
     inputs={'transformed_filename': str},
     outputs={'results': str},
     use_latest=True,
@@ -27,7 +32,7 @@ gnb_training_task = DominoJobTask(
 
 xgb_training_task = DominoJobTask(
     name='Train XGBoost classifier',
-    domino_job_config=DominoJobConfig(Command=_command("trainer_xgb.py")),
+    domino_job_config=DominoJobConfig(Command=_command("trainer_xgb.py"), DatasetSnapshots=DATASET_SNAPSHOTS),
     inputs={'transformed_filename': str},
     outputs={'results': str},
     use_latest=True,

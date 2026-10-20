@@ -49,8 +49,21 @@ This concludes the "3. MODEL TRAINING and EVALUATION" section of the workshop.
 
 `generic_trainer.py` is the shared training code the three trainers call - open it to see how
 the metrics, plots and model are logged. `train_fraud.ipynb` is a notebook that does the same
-thing end to end, if you prefer working that way. `workflow.py` and `compare.py` are for Domino
-Flows, Domino's orchestration layer, and are not used in this exercise.
+thing end to end, if you prefer working that way.
+
+### Optional: run the whole exercise as a Domino Flow
+
+`workflow.py` and `compare.py` define a Domino Flow that trains the three models in parallel
+and then picks the one with the highest ROC AUC. Commit and push first (Flow jobs run the
+repo, not your unsaved edits), then from the workspace terminal:
+
+```
+PYTHONPATH=/mnt/code pyflyte run --remote exercises/c_TrainingAndEvaluation/workflow.py credit_card_fraud_detection_workflow
+```
+
+Watch it under **Flows**. Flow jobs do not get the project's read-write Dataset, so
+`workflow.py` mounts a Dataset snapshot instead - take one after Exercise B (see
+`.setup/SETUP.md`). The runs land in the same experiment, so Compare works the same.
 
 ## New Domino Concepts
 

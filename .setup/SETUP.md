@@ -37,6 +37,12 @@ Work through this once, in order — each exercise's output feeds the next.
   python exercises/c_TrainingAndEvaluation/trainer_gnb.py
   python exercises/c_TrainingAndEvaluation/trainer_xgb.py
   ```
+- [ ] Optionally run the whole exercise as a Domino Flow. Flow jobs do not mount the read-write Dataset, so first snapshot it
+  (Data -> the Dataset -> Create Snapshot, include the three CSV/GZ files; it becomes version 1), and make sure
+  `DATASET_SNAPSHOTS` in `workflow.py` has your dataset's id, name and that version. Then commit, push and run:
+  ```
+  PYTHONPATH=/mnt/code pyflyte run --remote exercises/c_TrainingAndEvaluation/workflow.py credit_card_fraud_detection_workflow
+  ```
 - [ ] Optionally run them as three parallel Jobs instead, via the Domino API:
   ```
   python exercises/c_TrainingAndEvaluation/job_trainer_ada.py

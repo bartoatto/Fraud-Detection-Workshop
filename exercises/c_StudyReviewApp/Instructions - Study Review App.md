@@ -1,7 +1,7 @@
 # Publish the Study Review Desk
-Publish a small web app on top of the study data and the outputs from Exercise B. It shows the study at a glance, displays Table 14.1 with its QC status, and lets a reviewer sign off the table.
+Publish an interactive dashboard on the study data. Filter the population by arm, sex, age and site, explore demographics, disposition and exposure, see time to discontinuation as a Kaplan-Meier plot, and run statistical tests (ANOVA, Kruskal-Wallis, chi-square, log-rank, correlation) without writing code. The last tab shows Table 14.1 from Exercise B with its QC status.
 
-Sign-off is **gated**: a table can only be approved when the production and QC versions match. Every decision is logged with the reviewer and a timestamp. The app reads everything from the NetApp Volume, so there is nothing to configure.
+The app reads everything from the NetApp Volume, so there is nothing to configure. The statistics are in `common/stats.py` if you want to add your own.
 
 ## Exercise Instructions
 
@@ -10,13 +10,16 @@ Sign-off is **gated**: a table can only be approved when the production and QC v
 3. Go to **Deployments → Apps → Publish** (or **Publish App**).
 4. Choose the project files, pick `exercises/c_StudyReviewApp/app.sh` as the entry point, give the app a name and publish it.
 5. Open the app and try each tab:
-   - **Study overview** - subjects, sites and arms
-   - **Table 14.1** - the production table and its QC status
-   - **Sign-off** - record a decision on Table 14.1
-6. Find `signoff/signoff_log.csv` on the NetApp Volume to see the audit trail.
+   - **Overview** - KPIs, enrolment by arm and site, cumulative randomisation
+   - **Demographics** - pick a variable and a plot type; arm summaries
+   - **Disposition & exposure** - why subjects stopped, treatment duration, dose, and a data query on COMPLFL
+   - **Time to discontinuation** - Kaplan-Meier curves with a log-rank test
+   - **Statistical tests** - choose a variable and get the right test; correlation heatmap
+   - **Table 14.1 & data** - the production table with QC status, the filtered data, CSV download
+6. Change the sidebar filters and watch every tab update.
 
 ## New Domino Concepts
 
 **Apps:** A web app (Streamlit, Dash, Flask and others) published from project files, with Domino handling hosting, access control and the URL. Reviewers get a tool without needing the code.
 
-**Talk track - gates:** teams usually build in an exploratory project and need IT or Quality sign-off before something is production ready. The sign-off gate here is the same idea in miniature; Domino governance policies add formal approval steps around it.
+**Talk track - one app, many users:** the same published URL serves every reviewer, with Domino handling access control. Statistics run in the app's container, on the environment you chose, so the numbers are reproducible.

@@ -8,7 +8,7 @@ import importlib
 
 # Everything exercises A-C actually import.
 REQUIRED = [
-    "pandas", "numpy", "matplotlib", "seaborn", "streamlit",
+    "pandas", "numpy", "scipy", "statsmodels", "matplotlib", "seaborn", "plotly", "streamlit",
 ]
 # Nice to have, but the workshop degrades gracefully without them.
 OPTIONAL = [

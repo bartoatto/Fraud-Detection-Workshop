@@ -4,6 +4,7 @@ Used by the job launcher and the flow definition, which both need the volume's I
 from a workspace: they use the workspace's access token.
 """
 import os
+import time
 
 import requests
 
@@ -11,7 +12,11 @@ import requests
 def _get(path: str) -> list:
     token = requests.get("http://localhost:8899/access-token", timeout=10).text.strip()
     url = f"{os.environ['DOMINO_REMOTE_FILE_SYSTEM_HOSTPORT']}/remotefs/v1/{path}"
-    response = requests.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=30)
+    for attempt in range(4):  # the service occasionally returns a transient 5xx
+        response = requests.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=30)
+        if response.status_code < 500:
+            break
+        time.sleep(2 * (attempt + 1))
     response.raise_for_status()
     return response.json()["data"]
 

@@ -1,4 +1,4 @@
-"""QC program: independent re-programming of Table 14.1 (double programming).
+"""QC program: independent re-programming of the demographics table (double programming).
 
 Written without looking at the production code. It builds the same table with plain Python
 loops and the statistics module instead of pandas group-bys, then writes it to qc/tfl/.

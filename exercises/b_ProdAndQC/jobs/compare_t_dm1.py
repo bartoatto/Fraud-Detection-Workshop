@@ -1,4 +1,4 @@
-"""Compare the production and QC versions of Table 14.1 cell by cell.
+"""Compare the production and QC versions of the demographics table cell by cell.
 
 Writes the differences and a summary to compare/ on the NetApp Volume, and publishes the
 headline numbers to dominostats.json so they show on the Jobs screen.

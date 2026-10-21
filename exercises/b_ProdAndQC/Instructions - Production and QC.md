@@ -3,7 +3,7 @@ The exercise has two parts. `jobs/` holds the programs and the ways to run them 
 
 Clinical outputs are programmed twice: a **production** programmer builds the table, and a **QC** programmer rebuilds it independently without looking at the first. A third step compares the two. You will run all three together as one Domino **Job**.
 
-The table is Table 14.1, a summary of demographic and baseline characteristics for the safety population, by treatment arm. Every program reads ADSL from, and writes its results back to, the NetApp Volume.
+The table is the demographics table, a summary of demographic and baseline characteristics for the safety population, by treatment arm. Every program reads ADSL from, and writes its results back to, the NetApp Volume.
 
 ## Exercise Instructions
 
@@ -29,7 +29,7 @@ It returns straight away and prints the job number. Watch it under **Jobs**. Syn
 
 Then, from the workspace terminal:
 
-`PYTHONPATH=$DOMINO_WORKING_DIR pyflyte run --remote exercises/b_ProdAndQC/flow/workflow.py table_14_1`
+`PYTHONPATH=$DOMINO_WORKING_DIR pyflyte run --remote exercises/b_ProdAndQC/flow/workflow.py demographics_table`
 
 Watch it under **Flows**. The Jobs screen shows the production, QC and compare jobs, with the comparison's Status, Cells compared and Cell differences.
 

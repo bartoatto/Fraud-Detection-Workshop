@@ -1,4 +1,4 @@
-"""Start the Table 14.1 job from a script, using the Domino Python library.
+"""Start the demographics table job from a script, using the Domino Python library.
 
 Instead of clicking Run Job in the UI, this submits the same job through Domino's API and
 returns straight away. Watch it under Jobs. Sync your workspace first, because the job runs
@@ -20,7 +20,7 @@ from common.domino_api import find_volume
 # The job to run: the run_t_dm1.py next to this script, as a path relative to the project.
 SCRIPT = Path(__file__).resolve().with_name("run_t_dm1.py").relative_to(PROJECT_DIR.resolve())
 COMMAND = f"python {SCRIPT}"
-TITLE = "Table 14.1: production, QC and compare"
+TITLE = "Demographics table: production, QC and compare"
 
 project = f"{os.environ['DOMINO_PROJECT_OWNER']}/{os.environ['DOMINO_PROJECT_NAME']}"
 domino = Domino(project, api_key=os.environ["DOMINO_USER_API_KEY"], host=os.environ["DOMINO_API_HOST"])

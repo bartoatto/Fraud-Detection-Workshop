@@ -1,5 +1,5 @@
 # Publish the Study Review Desk
-Publish an interactive dashboard on the study data. Filter the population by arm, sex, age and site, explore demographics, disposition and exposure, see time to discontinuation as a Kaplan-Meier plot, and run statistical tests (ANOVA, Kruskal-Wallis, chi-square, log-rank, correlation) without writing code. The last tab shows Table 14.1 from Exercise B with its QC status.
+Publish an interactive dashboard on the study data. Filter the population by arm, sex, age and site, explore demographics, disposition and exposure, see time to discontinuation as a Kaplan-Meier plot, and run statistical tests (ANOVA, Kruskal-Wallis, chi-square, log-rank, correlation) without writing code. The last tab shows the demographics table from Exercise B with its QC status.
 
 The app reads everything from the NetApp Volume, so there is nothing to configure. The statistics are in `common/stats.py` if you want to add your own.
 
@@ -15,7 +15,7 @@ The app reads everything from the NetApp Volume, so there is nothing to configur
    - **Disposition & exposure** - why subjects stopped, treatment duration, dose, and a data query on COMPLFL
    - **Time to discontinuation** - Kaplan-Meier curves with a log-rank test
    - **Statistical tests** - choose a variable and get the right test; correlation heatmap
-   - **Table 14.1 & data** - the production table with QC status, the filtered data, CSV download
+   - **Demographics table & data** - the production table with QC status, the filtered data, CSV download
 6. Change the sidebar filters and watch every tab update.
 
 ## New Domino Concepts

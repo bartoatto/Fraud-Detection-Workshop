@@ -1,4 +1,4 @@
-"""Production program: Table 14.1 - Summary of Demographic and Baseline Characteristics.
+"""Production program: Demographics table - Summary of Demographic and Baseline Characteristics.
 
 Safety population, by treatment arm. Reads ADSL from the NetApp Volume and writes the table
 (CSV and HTML) back to tfl/ on the same volume.
@@ -13,7 +13,7 @@ sys.path.append(os.environ.get("DOMINO_WORKING_DIR", "."))
 from common import paths
 from common.adam import load_adsl, round_half_up
 
-TITLE = "Table 14.1: Summary of Demographic and Baseline Characteristics - Safety Population"
+TITLE = "Demographics table: Summary of Demographic and Baseline Characteristics - Safety Population"
 FOOTNOTE = "Percentages use the number of subjects in each arm as the denominator. Source: ADSL."
 
 AGE_GROUPS = ["<65", "65-80", ">80"]

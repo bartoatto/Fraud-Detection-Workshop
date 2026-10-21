@@ -1,4 +1,4 @@
-"""Table 14.1 as a Domino Flow: production and QC run in parallel, then the comparison.
+"""The demographics table as a Domino Flow: production and QC run in parallel, then the comparison.
 
 This is the same work as run_t_dm1.py, but each step is its own job, so the two programs run
 at the same time and every step is tracked in the flow's lineage graph.
@@ -14,7 +14,7 @@ there is none.
 Commit and sync first (flow jobs run the project files, not your unsaved edits), then from a
 workspace terminal:
 
-    PYTHONPATH=$DOMINO_WORKING_DIR pyflyte run --remote exercises/b_ProdAndQC/flow/workflow.py table_14_1
+    PYTHONPATH=$DOMINO_WORKING_DIR pyflyte run --remote exercises/b_ProdAndQC/flow/workflow.py demographics_table
 
 For a Git-based project that should run a branch other than the default, set FLOW_GIT_REF.
 """
@@ -56,14 +56,14 @@ def _job(name: str, script: str, inputs: dict, outputs: dict) -> DominoJobTask:
 
 CSV = FlyteFile[TypeVar("csv")]
 
-prod_task = _job("Production: Table 14.1", "flow_prod.py", {}, {"table": CSV})
-qc_task = _job("QC: Table 14.1", "flow_qc.py", {}, {"table": CSV})
+prod_task = _job("Production: demographics table", "flow_prod.py", {}, {"table": CSV})
+qc_task = _job("QC: demographics table", "flow_qc.py", {}, {"table": CSV})
 compare_task = _job("Compare production and QC", "flow_compare.py",
                     {"prod_table": CSV, "qc_table": CSV}, {"summary": str})
 
 
 @workflow
-def table_14_1() -> str:
+def demographics_table() -> str:
     prod = prod_task()
     qc = qc_task()
     return compare_task(prod_table=prod, qc_table=qc)

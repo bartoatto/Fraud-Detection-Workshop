@@ -1,4 +1,4 @@
-"""Run the whole Table 14.1 workflow as one Domino Job.
+"""Run the whole demographics table workflow as one Domino Job.
 
 Production, then QC, then the comparison, in that order. Each step is the same program you
 can also run on its own (prod_t_dm1.py, qc_t_dm1.py, compare_t_dm1.py).

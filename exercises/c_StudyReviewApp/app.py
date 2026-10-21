@@ -2,7 +2,7 @@
 
 Reads ADSL from the NetApp Volume. The sidebar filters drive every tab: overview KPIs,
 demographics, disposition and exposure, time to discontinuation (Kaplan-Meier + log-rank),
-a statistical test workbench, and the Table 14.1 production/QC results from Exercise B.
+a statistical test workbench, and the demographics table production/QC results from Exercise B.
 Published as a Domino App through app.sh.
 """
 import json
@@ -80,7 +80,7 @@ if df.empty:
     st.stop()
 
 tab_over, tab_demo, tab_disp, tab_surv, tab_tests, tab_table = st.tabs(
-    ["Overview", "Demographics", "Disposition & exposure", "Time to discontinuation", "Statistical tests", "Table 14.1 & data"])
+    ["Overview", "Demographics", "Disposition & exposure", "Time to discontinuation", "Statistical tests", "Demographics table & data"])
 
 # ---- Overview ---------------------------------------------------------------------------------
 with tab_over:
@@ -211,11 +211,11 @@ with tab_tests:
         st.plotly_chart(style(px.imshow(corr.round(2), text_auto=True, zmin=-1, zmax=1, color_continuous_scale="RdBu_r",
                                         title="Spearman correlation"), 420), width="stretch")
 
-# ---- Table 14.1 and data -------------------------------------------------------------------------
+# ---- Demographics table and data ----
 with tab_table:
-    st.subheader("Table 14.1 - production and QC (Exercise B)")
+    st.subheader("Demographics table - production and QC (Exercise B)")
     if not paths.PROD_DM1.exists():
-        st.info("Table 14.1 has not been produced yet. Run the production program (Exercise B) as a Job.")
+        st.info("The demographics table has not been produced yet. Run the production program (Exercise B) as a Job.")
     else:
         status = json.loads(paths.COMPARE_SUMMARY.read_text()) if paths.COMPARE_SUMMARY.exists() else None
         if status is None:

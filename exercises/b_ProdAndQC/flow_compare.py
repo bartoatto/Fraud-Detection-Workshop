@@ -1,5 +1,4 @@
 """Flow step 3: compare the production and QC tables and return the summary."""
-import io
 import json
 import os
 import sys
@@ -13,8 +12,7 @@ from compare_t_dm1 import compare, publish
 
 
 def read_table(name: str) -> pd.DataFrame:
-    text = Path(f"/workflow/inputs/{name}").read_text()
-    return pd.read_csv(io.StringIO(text), dtype=str, keep_default_na=False)
+    return pd.DataFrame(json.loads(Path(f"/workflow/inputs/{name}").read_text()))
 
 
 summary, diffs = compare(read_table("prod_table"), read_table("qc_table"))

@@ -21,15 +21,15 @@ Mount paths: `/domino/netapp-volumes/<name>/` in DFS projects, `/mnt/netapp-volu
 ## 4. Dry run
 - [ ] `python .setup/verify_environment.py` prints PASS
 - [ ] Exercise A notebook runs top to bottom
-- [ ] Exercise B: the production, QC and compare jobs succeed and the compare job's status shows Clean on the Jobs screen
+- [ ] Exercise B: the single job (`run_t_dm1.py`) succeeds and its status shows Clean on the Jobs screen
 - [ ] Exercise C: the app publishes, the tabs load, and an approval is recorded
 
 Then restore the volume to its starting state by deleting `tfl/`, `qc/`, `compare/` and `signoff/`, and clear `artifacts/`.
 
 ## 4b. SAS version (optional)
 - [ ] Use a SAS Analytics Pro environment with SAS Studio for the `exercises_sas/` programs, and check its SAS licence is valid.
-- [ ] Run `exercises_sas/a_ExploreADSL/explore_adsl.sas` and the three programs in `b_ProdAndQC` once, and fix anything the log reports. They have not been run yet.
-- [ ] Check the compare job's status on the Jobs screen, and that the app shows the SAS results.
+- [ ] Run `exercises_sas/a_ExploreADSL/explore_adsl.sas` and `b_ProdAndQC/run_t_dm1.sas` once, and fix anything the log reports. They have not been run yet.
+- [ ] Check the job's status on the Jobs screen, and that the app shows the SAS results.
 
 ## 5. Template and access
 - [ ] Publish the project as a project template.

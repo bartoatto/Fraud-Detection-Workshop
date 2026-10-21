@@ -76,7 +76,7 @@ def to_html(table: pd.DataFrame) -> str:
             f"<h3>{TITLE}</h3>{table.to_html(index=False, border=0)}<p>{FOOTNOTE}</p></body></html>")
 
 
-if __name__ == "__main__":
+def main():
     adsl = load_adsl()
     print(f"Read {len(adsl)} subjects from {paths.ADSL_FILE}")
     table = build_table(adsl)
@@ -84,3 +84,7 @@ if __name__ == "__main__":
     table.to_csv(paths.PROD_DM1, index=False)
     paths.PROD_DM1_HTML.write_text(to_html(table))
     print(f"Wrote {paths.PROD_DM1} ({len(table)} rows)")
+
+
+if __name__ == "__main__":
+    main()

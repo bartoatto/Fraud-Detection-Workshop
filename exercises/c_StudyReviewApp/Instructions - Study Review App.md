@@ -5,7 +5,7 @@ Sign-off is **gated**: a table can only be approved when the production and QC v
 
 ## Exercise Instructions
 
-1. Make sure the three jobs in Exercise B have finished.
+1. Make sure the Exercise B job has finished.
 2. Optional check in the workspace terminal: `PORT=8501 bash exercises/c_StudyReviewApp/app.sh`, then open the proxied port.
 3. Go to **Deployments → Apps → Publish** (or **Publish App**).
 4. Choose the project files, pick `exercises/c_StudyReviewApp/app.sh` as the entry point, give the app a name and publish it.

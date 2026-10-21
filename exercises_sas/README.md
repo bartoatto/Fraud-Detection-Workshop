@@ -5,7 +5,7 @@ The same three exercises as `exercises/`, written in SAS for statistical program
 | # | Folder | What you do |
 |---|--------|-------------|
 | A | `a_ExploreADSL` | Explore ADSL in SAS Studio: contents, frequencies, data checks, plots |
-| B | `b_ProdAndQC` | Run the production, QC and compare programs for Table 14.1 as Domino Jobs |
+| B | `b_ProdAndQC` | Run the production, QC and compare programs for Table 14.1 as one Domino Job |
 | C | `c_StudyReviewApp` | Publish the (Python) Study Review Desk and sign off the table |
 
 `setup/domino_setup.sas` is shared by every program. It finds the NetApp Volume, creates the `ADAM`, `TFL` and `TFLQC` libraries, and defines a macro that publishes results to the Jobs screen.

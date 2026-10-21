@@ -11,9 +11,9 @@ The table is the demographics table, a summary of demographic and baseline chara
 2. Sync your changes, then click **Run Job** and enter `python exercises/b_ProdAndQC/jobs/run_t_dm1.py`. This runs the production program, then the QC program, then the comparison, in order. (Each program can also be run as its own Job: `jobs/prod_t_dm1.py`, `jobs/qc_t_dm1.py`, `jobs/compare_t_dm1.py`.)
 3. Open **Jobs** and click the job. Watch the logs: you can see the three steps go by. When it finishes, note the **Status**, **Cells compared** and **Cell differences** values that appear on the Jobs screen.
 4. On the NetApp Volume, find the outputs:
-   - `tfl/t_dm1.csv` and `tfl/t_dm1.html` - the production table
-   - `qc/tfl/qc_t_dm1.csv` - the QC table
-   - `compare/t_dm1_summary.json` - the comparison result
+   - `t_dm1.csv` and `t_dm1.html` - the production table
+   - `qc_t_dm1.csv` - the QC table
+   - `t_dm1_summary.json` - the comparison result
 
 ### Optional: start the job from a script
 Instead of clicking Run Job, submit the same job from the workspace terminal with the Domino Python library:

@@ -7,9 +7,9 @@ Use the `Fraud-Detection-Workshop` environment described in `environment.md` (a 
 
 ## 2. NetApp Volume
 - [ ] Create a NetApp Volume named exactly `cdisc01-study-data` (Data > NetApp Volumes > Create Volume; a couple of GB is plenty). The code looks for `<mount>/cdisc01-study-data/`.
-- [ ] Create a folder `adam/` at the root and put `adsl.sas7bdat` in it. Mount the volume in a workspace or job and copy the file in.
+- [ ] Put `adsl.sas7bdat` directly in the volume (no subfolders; the volume is flat). Mount the volume in a workspace or job and copy the file in.
 - [ ] Take a snapshot with the tag `adsl-v1` (and a commit message). Exercise B's snapshot-tag step and the flow both read from that tag, so the name matters. A flow needs this snapshot to exist before it runs.
-- [ ] Give attendees access. Exercise B writes `tfl/`, `qc/tfl/` and `compare/`, and the app writes `signoff/`, so attendees need Editor access. A shared live volume means everyone writes the same files, which is fine because every run produces the same output; use a separate copy per attendee if you want them isolated.
+- [ ] Give attendees access. Exercise B writes its tables and comparison files into the volume, so attendees need Editor access. A shared live volume means everyone writes the same files, which is fine because every run produces the same output; use a separate copy per attendee if you want them isolated.
 
 Mount paths: `/domino/netapp-volumes/<name>/` in DFS projects, `/mnt/netapp-volumes/<name>/` in Git-based projects. `common/paths.py` finds whichever exists.
 
@@ -23,9 +23,9 @@ Mount paths: `/domino/netapp-volumes/<name>/` in DFS projects, `/mnt/netapp-volu
 - [ ] Exercise A notebook runs top to bottom
 - [ ] Exercise B: the single job (`jobs/run_t_dm1.py`) succeeds and its status shows Clean on the Jobs screen
 - [ ] Exercise B optional: `jobs/launch_job.py` starts the job, and the flow (`flow/workflow.py`) runs and shows status Clean
-- [ ] Exercise C: the app publishes, the tabs load, and an approval is recorded
+- [ ] Exercise C: the app publishes and the tabs load, with the filters and tests responding
 
-Then restore the volume to its starting state by deleting `tfl/`, `qc/`, `compare/` and `signoff/`, and clear `artifacts/`.
+Then restore the volume to its starting state by deleting everything except `adsl.sas7bdat` (`t_dm1.*`, `qc_t_dm1.csv`, `t_dm1_compare.csv`, `t_dm1_summary.json`), and clear `artifacts/`.
 
 ## 5. Template and access
 - [ ] Publish the project as a project template.

@@ -1,7 +1,7 @@
 """Production program: Demographics table - Summary of Demographic and Baseline Characteristics.
 
 Safety population, by treatment arm. Reads ADSL from the NetApp Volume and writes the table
-(CSV and HTML) back to tfl/ on the same volume.
+(CSV and HTML) back to the same volume.
 Run as a Domino Job:  python exercises/b_ProdAndQC/jobs/prod_t_dm1.py
 """
 import os
@@ -81,7 +81,6 @@ def main():
     adsl = load_adsl()
     print(f"Read {len(adsl)} subjects from {paths.ADSL_FILE}")
     table = build_table(adsl)
-    paths.ensure(paths.PROD_DIR)
     table.to_csv(paths.PROD_DM1, index=False)
     paths.PROD_DM1_HTML.write_text(to_html(table))
     print(f"Wrote {paths.PROD_DM1} ({len(table)} rows)")

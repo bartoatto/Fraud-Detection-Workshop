@@ -4,12 +4,14 @@ The study data lives on a NetApp Volume attached to the project. Domino mounts i
 /domino/netapp-volumes (DFS projects) or /mnt/netapp-volumes (Git-based projects), so these
 paths work in workspaces, jobs and apps alike.
 
-Volume layout (mirrors a typical SCE study folder):
-    adam/adsl.sas7bdat       ADaM subject-level dataset (input)
-    tfl/                     production tables
-    qc/tfl/                  independently programmed QC tables
-    compare/                 prod-vs-QC comparison results
-    signoff/                 reviewer sign-off log
+Volume layout: flat, every file sits directly in the volume (no subfolders).
+    adsl.sas7bdat       ADaM subject-level dataset (input)
+    t_dm1.csv/.html     production demographics table
+    qc_t_dm1.csv        independently programmed QC table
+    t_dm1_compare.csv   prod-vs-QC differences
+    t_dm1_summary.json  prod-vs-QC summary
+
+Plots are not written to the volume: the notebook saves them under the project's artifacts folder.
 
 Environment variables (all optional):
     STUDY_DATA_DIR     use this folder instead of the NetApp volume (for running outside Domino)
@@ -51,23 +53,17 @@ DATA_DIR = _data_dir()
 def _adsl_file() -> Path:
     tag = os.environ.get("ADSL_SNAPSHOT_TAG")
     if tag and not os.environ.get("STUDY_DATA_DIR"):
-        return _mount_root() / "snapshot-tags" / VOLUME_NAME / tag / "adam" / "adsl.sas7bdat"
-    return DATA_DIR / "adam" / "adsl.sas7bdat"
+        return _mount_root() / "snapshot-tags" / VOLUME_NAME / tag / "adsl.sas7bdat"
+    return DATA_DIR / "adsl.sas7bdat"
 
 
 ADSL_FILE = _adsl_file()
 
-PROD_DIR = DATA_DIR / "tfl"
-QC_DIR = DATA_DIR / "qc" / "tfl"
-COMPARE_DIR = DATA_DIR / "compare"
-SIGNOFF_DIR = DATA_DIR / "signoff"
-
-PROD_DM1 = PROD_DIR / "t_dm1.csv"
-PROD_DM1_HTML = PROD_DIR / "t_dm1.html"
-QC_DM1 = QC_DIR / "qc_t_dm1.csv"
-COMPARE_DM1 = COMPARE_DIR / "t_dm1_compare.csv"
-COMPARE_SUMMARY = COMPARE_DIR / "t_dm1_summary.json"
-SIGNOFF_LOG = SIGNOFF_DIR / "signoff_log.csv"
+PROD_DM1 = DATA_DIR / "t_dm1.csv"
+PROD_DM1_HTML = DATA_DIR / "t_dm1.html"
+QC_DM1 = DATA_DIR / "qc_t_dm1.csv"
+COMPARE_DM1 = DATA_DIR / "t_dm1_compare.csv"
+COMPARE_SUMMARY = DATA_DIR / "t_dm1_summary.json"
 
 
 def artifact_dir(name: str) -> Path:
@@ -75,11 +71,6 @@ def artifact_dir(name: str) -> Path:
     path = ARTIFACTS_DIR / name
     path.mkdir(parents=True, exist_ok=True)
     return path
-
-
-def ensure(*dirs: Path) -> None:
-    for d in dirs:
-        d.mkdir(parents=True, exist_ok=True)
 
 
 def write_dominostats(stats: dict) -> Path:

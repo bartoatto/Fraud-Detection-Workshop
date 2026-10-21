@@ -1,6 +1,6 @@
 """Compare the production and QC versions of the demographics table cell by cell.
 
-Writes the differences and a summary to compare/ on the NetApp Volume, and publishes the
+Writes the differences and a summary to the NetApp Volume, and publishes the
 headline numbers to dominostats.json so they show on the Jobs screen.
 Run as a Domino Job:  python exercises/b_ProdAndQC/jobs/compare_t_dm1.py
 """
@@ -52,7 +52,6 @@ def main():
     qc = pd.read_csv(paths.QC_DM1, dtype=str, keep_default_na=False)
     summary, diffs = compare(prod, qc)
 
-    paths.ensure(paths.COMPARE_DIR)
     diffs.to_csv(paths.COMPARE_DM1, index=False)
     paths.COMPARE_SUMMARY.write_text(json.dumps(summary, indent=2))
     publish(summary)

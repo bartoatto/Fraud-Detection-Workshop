@@ -1,7 +1,7 @@
 """QC program: independent re-programming of the demographics table (double programming).
 
 Written without looking at the production code. It builds the same table with plain Python
-loops and the statistics module instead of pandas group-bys, then writes it to qc/tfl/.
+loops and the statistics module instead of pandas group-bys, then writes it to the volume.
 Run as a Domino Job:  python exercises/b_ProdAndQC/jobs/qc_t_dm1.py
 
 Presenters can set QC_INTRODUCE_DIFF=1 to plant one wrong number and show the compare job
@@ -75,7 +75,6 @@ def plant_difference(table: pd.DataFrame) -> pd.DataFrame:
 
 def main():
     table = plant_difference(build_table(load_adsl()))
-    paths.ensure(paths.QC_DIR)
     table.to_csv(paths.QC_DM1, index=False)
     print(f"Wrote {paths.QC_DM1} ({len(table)} rows)")
 

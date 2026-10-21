@@ -37,23 +37,15 @@ if not paths.ADSL_FILE.exists():
     st.stop()
 
 adsl = adsl_data()
-tab_study, tab_table, tab_subjects, tab_signoff = st.tabs(["Study overview", "Table 14.1", "Subjects", "Sign-off"])
+tab_study, tab_table, tab_signoff = st.tabs(["Study overview", "Table 14.1", "Sign-off"])
 
 with tab_study:
-    m1, m2, m3, m4 = st.columns(4)
+    m1, m2, m3 = st.columns(3)
     m1.metric("Subjects", len(adsl))
     m2.metric("Sites", adsl["SITEID"].nunique())
     m3.metric("Completed the study", f"{(adsl['EOSSTT'] == 'COMPLETED').mean():.0%}")
-    m4.metric("Median age", f"{adsl['AGE'].median():.0f}")
-    left, right = st.columns(2)
-    with left:
-        st.subheader("Subjects by arm")
-        st.bar_chart(adsl["ARM"].value_counts())
-    with right:
-        st.subheader("Why subjects discontinued")
-        st.bar_chart(adsl["DCSREAS"].dropna().value_counts())
-    st.subheader("Disposition by arm")
-    st.dataframe(pd.crosstab(adsl["ARM"], adsl["EOSSTT"], margins=True), use_container_width=True)
+    st.subheader("Subjects by treatment arm")
+    st.bar_chart(adsl["ARM"].value_counts())
 
 with tab_table:
     status = qc_status()
@@ -69,22 +61,6 @@ with tab_table:
         else:
             st.error(f"QC: {status['cell_differences']} difference(s) between production and QC.")
             st.dataframe(pd.read_csv(paths.COMPARE_DM1, keep_default_na=False), hide_index=True, use_container_width=True)
-
-with tab_subjects:
-    f1, f2, f3 = st.columns(3)
-    arms = f1.multiselect("Arm", sorted(adsl["ARM"].unique()))
-    sexes = f2.multiselect("Sex", sorted(adsl["SEX"].unique()))
-    sites = f3.multiselect("Site", sorted(adsl["SITEID"].unique()))
-    view = adsl
-    if arms:
-        view = view[view["ARM"].isin(arms)]
-    if sexes:
-        view = view[view["SEX"].isin(sexes)]
-    if sites:
-        view = view[view["SITEID"].isin(sites)]
-    st.caption(f"{len(view)} of {len(adsl)} subjects")
-    st.dataframe(view[["USUBJID", "SITEID", "ARM", "AGE", "SEX", "RACE", "EOSSTT", "DCSREAS", "TRTDURD"]],
-                 hide_index=True, use_container_width=True)
 
 with tab_signoff:
     st.write("Sign off a table once its QC is clean. This is a simple, linear review: one reviewer, one decision, "

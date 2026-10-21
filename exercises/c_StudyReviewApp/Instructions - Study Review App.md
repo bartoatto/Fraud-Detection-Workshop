@@ -1,5 +1,5 @@
 # Publish the Study Review Desk
-Publish a small web app on top of the study data and the outputs from Exercise B. It shows the study at a glance, displays Table 14.1 with its QC status, lists subjects with filters, and lets a reviewer sign off the table.
+Publish a small web app on top of the study data and the outputs from Exercise B. It shows the study at a glance, displays Table 14.1 with its QC status, and lets a reviewer sign off the table.
 
 Sign-off is **gated**: a table can only be approved when the production and QC versions match. Every decision is logged with the reviewer and a timestamp. The app reads everything from the NetApp Volume, so there is nothing to configure.
 
@@ -10,9 +10,8 @@ Sign-off is **gated**: a table can only be approved when the production and QC v
 3. Go to **Deployments → Apps → Publish** (or **Publish App**).
 4. Choose the project files, pick `exercises/c_StudyReviewApp/app.sh` as the entry point, give the app a name and publish it.
 5. Open the app and try each tab:
-   - **Study overview** - subjects, sites, disposition
+   - **Study overview** - subjects, sites and arms
    - **Table 14.1** - the production table and its QC status
-   - **Subjects** - filter the subject list by arm, sex and site
    - **Sign-off** - record a decision on Table 14.1
 6. Find `signoff/signoff_log.csv` on the NetApp Volume to see the audit trail.
 

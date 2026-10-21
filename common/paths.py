@@ -13,7 +13,6 @@ Volume layout (mirrors a typical SCE study folder):
 
 Environment variables (all optional):
     STUDY_DATA_DIR     use this folder instead of the NetApp volume (for running outside Domino)
-    ADSL_SNAPSHOT_VERSION  read ADSL from that snapshot number (flow tasks mount a snapshot)
     ADSL_SNAPSHOT_TAG  read ADSL from that snapshot tag of the volume, so a run is reproducible
 """
 import json
@@ -33,7 +32,7 @@ else:
 
 def _mount_root() -> Path:
     for root in MOUNT_ROOTS:
-        if (Path(root) / VOLUME_NAME).is_dir() or (Path(root) / "snapshots" / VOLUME_NAME).is_dir():
+        if (Path(root) / VOLUME_NAME).is_dir():
             return Path(root)
     raise FileNotFoundError(
         f"NetApp Volume '{VOLUME_NAME}' is not mounted. Add it to this project under "
@@ -43,29 +42,16 @@ def _mount_root() -> Path:
 def _data_dir() -> Path:
     if os.environ.get("STUDY_DATA_DIR"):
         return Path(os.environ["STUDY_DATA_DIR"])
-    root = _mount_root()
-    live = root / VOLUME_NAME
-    if live.is_dir():
-        return live
-    # Flow tasks mount a read-only snapshot instead of the live volume.
-    version = os.environ.get("ADSL_SNAPSHOT_VERSION")
-    if version:
-        return root / "snapshots" / VOLUME_NAME / version
-    raise FileNotFoundError(f"Only snapshots of '{VOLUME_NAME}' are mounted; set ADSL_SNAPSHOT_VERSION.")
+    return _mount_root() / VOLUME_NAME
 
 
 DATA_DIR = _data_dir()
 
 
 def _adsl_file() -> Path:
-    if os.environ.get("STUDY_DATA_DIR"):
-        return DATA_DIR / "adam" / "adsl.sas7bdat"
     tag = os.environ.get("ADSL_SNAPSHOT_TAG")
-    version = os.environ.get("ADSL_SNAPSHOT_VERSION")
-    if tag:
+    if tag and not os.environ.get("STUDY_DATA_DIR"):
         return _mount_root() / "snapshot-tags" / VOLUME_NAME / tag / "adam" / "adsl.sas7bdat"
-    if version:
-        return _mount_root() / "snapshots" / VOLUME_NAME / version / "adam" / "adsl.sas7bdat"
     return DATA_DIR / "adam" / "adsl.sas7bdat"
 
 

@@ -17,14 +17,14 @@ The table is Table 14.1, a summary of demographic and baseline characteristics f
    - `compare/t_dm1_summary.json` - the comparison result
 
 ### Optional: reproducible runs with a snapshot tag
-A snapshot tag freezes the input. Run the production job again as:
+A snapshot tag freezes the input. Run the production job again, with the command:
 
-`ADSL_SNAPSHOT_TAG=adsl-v1 python exercises/b_ProdAndQC/prod_t_dm1.py`
+`env ADSL_SNAPSHOT_TAG=adsl-v1 python exercises/b_ProdAndQC/prod_t_dm1.py`
 
-It now reads ADSL from the `adsl-v1` snapshot of the volume, not the live files, so the result can be reproduced later even if the live data changes.
+(`env` sets the variable for that one command.) It now reads ADSL from the `adsl-v1` snapshot of the volume, not the live files, so the result can be reproduced later even if the live data changes.
 
 ### Presenter demo: catch a difference
-Run the QC job as `QC_INTRODUCE_DIFF=1 python exercises/b_ProdAndQC/qc_t_dm1.py`, then run the compare job again. It reports the changed cell, and the Jobs screen shows the status as Issues. Re-run the QC job without the variable to clear it.
+Run the QC job as `env QC_INTRODUCE_DIFF=1 python exercises/b_ProdAndQC/qc_t_dm1.py`, then run the compare job again. It reports the changed cell, and the Jobs screen shows the status as Issues. Re-run the QC job without the variable to clear it.
 
 ## New Domino Concepts
 

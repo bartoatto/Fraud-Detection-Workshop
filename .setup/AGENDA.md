@@ -8,32 +8,34 @@ Presenter notes; delete this folder from the project before publishing the templ
 
 **Study:** the public CDISC pilot study (CDISCPILOT01), a 254-subject Alzheimer's trial. We use its ADSL dataset only. The same study also drives the reference study repository, so what attendees see here maps onto how a real SCE project is organised.
 
-## Day 1 - Platform primitives on a study (2h)
+## Day 1 - Platform primitives (2h)
 
 | Time | Topic | Format |
 |------|-------|--------|
 | 0:00 | Welcome, what Domino is, how it fits SCE work | Slides |
 | 0:10 | Projects (a project is a study), project templates, compute environments, hardware tiers | Slides + demo |
-| 0:25 | **Exercise A** - launch a workspace, explore ADSL | Hands-on |
-| 0:50 | Data: NetApp Volumes, roles, snapshots and tags, audit trail. Git and version control, kept simple | Slides |
+| 0:25 | **Exercise A** - launch a workspace, explore the ADSL dataset | Hands-on |
+| 0:50 | Data: NetApp Volumes, snapshots and tags, RBAC, audit trail. Git and version control, kept simple | Slides |
 | 1:05 | **Exercise B** - production, QC and compare as Jobs. Talk track: jobs to flows | Hands-on |
-| 1:25 | **Exercise C** - publish the Study Review Desk. Talk track: gates | Hands-on |
+| 1:30 | **Exercise C** - publish the Study Review Desk. Talk track: gates | Hands-on |
 | 1:50 | Governance policies shown by the presenters; wrap-up and Day 2 preview | Demo |
 
-If it runs long, present Exercise C as a demo, and leave extensions and the coding agent for Day 2 or the specialist.
+There is no model training in this session. If it runs long, present Exercise C as a demo, and leave extensions and the coding agent for Day 2 or the specialist.
 
-## How the exercises map to an SCE study
+## How this maps to a real SCE study repository
 
-| Workshop | In a real study repository |
-|----------|----------------------------|
-| `adam/adsl.sas7bdat` on the volume | ADaM datasets built from SDTM, read from a tagged snapshot |
-| Exercise B production job | `prod/tfl/*.sas` programs run as batch jobs |
-| Exercise B QC job | `qc/tfl/qc_*.sas`, written independently (double programming) |
-| Exercise B compare job | PROC COMPARE summary that writes `dominostats.json` |
-| Run with `ADSL_SNAPSHOT_TAG` | Reading the SDTM snapshot tag so a run is reproducible |
-| Study Review Desk sign-off | Review and approval of deliverables (SOP) |
+The exercises are a small version of the structure a statistical programming team uses (a reference study repository was used as the model):
 
-The reference repository separates DEV (interactive SAS Studio) from PROD (batch jobs) with separate volumes and chains ADaM, QC and compare in Flows. We describe that and do not run it.
+| Real study repo | This workshop |
+|-----------------|---------------|
+| `prod/adam`, `prod/tfl` programs | `prod_t_dm1.py` |
+| `qc/adam`, `qc/tfl` independent programs | `qc_t_dm1.py` |
+| `compare_*.sas` (PROC COMPARE) writing `dominostats.json` | `compare_t_dm1.py` |
+| SDTM / ADaM / TFL on NetApp Volumes, read through snapshot tags | one volume, `ADSL_SNAPSHOT_TAG` option |
+| Flows chaining SDTM, ADaM, QC and compare | talked through, not run |
+| Programs in SAS | Python here; the same ideas apply |
+
+Good questions to expect: how SAS Analytics Pro fits in (supported as a container), how dev and production volumes are separated in the reference repo (interactive sessions write to DEV volumes, batch jobs to PROD), and how Pinnacle 21 validation is run as a job.
 
 ## Talk tracks
 

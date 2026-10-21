@@ -5,7 +5,7 @@ at the same time and every step is tracked in the flow's lineage graph.
 
 Flow jobs do not get the project's live volume, so each step mounts a read-only snapshot of
 the study volume (the one tagged adsl-v1), which appears at the usual volume path. Nothing is
-written back to the volume: each step passes its table to the next as text.
+written back to the volume: each step passes its table to the next as a file.
 
 Commit and sync first (flow jobs run the project files, not your unsaved edits), then from a
 workspace terminal:
@@ -16,7 +16,10 @@ For a Git-based project that should run a branch other than the default, set FLO
 """
 import os
 
+from typing import TypeVar
+
 from flytekit import workflow
+from flytekit.types.file import FlyteFile
 from flytekitplugins.domino.task import DominoJobConfig, DominoJobTask, GitRef, NetAppVolumeSnapshot
 
 from common.domino_api import find_snapshot, find_volume
@@ -45,10 +48,12 @@ def _job(name: str, script: str, inputs: dict, outputs: dict) -> DominoJobTask:
     return DominoJobTask(name=name, domino_job_config=config, inputs=inputs, outputs=outputs, use_latest=True)
 
 
-prod_task = _job("Production: Table 14.1", "flow_prod.py", {}, {"table": str})
-qc_task = _job("QC: Table 14.1", "flow_qc.py", {}, {"table": str})
+CSV = FlyteFile[TypeVar("csv")]
+
+prod_task = _job("Production: Table 14.1", "flow_prod.py", {}, {"table": CSV})
+qc_task = _job("QC: Table 14.1", "flow_qc.py", {}, {"table": CSV})
 compare_task = _job("Compare production and QC", "flow_compare.py",
-                    {"prod_table": str, "qc_table": str}, {"summary": str})
+                    {"prod_table": CSV, "qc_table": CSV}, {"summary": str})
 
 
 @workflow

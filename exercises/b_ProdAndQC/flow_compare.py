@@ -12,7 +12,7 @@ from compare_t_dm1 import compare, publish
 
 
 def read_table(name: str) -> pd.DataFrame:
-    return pd.DataFrame(json.loads(Path(f"/workflow/inputs/{name}").read_text()))
+    return pd.read_csv(f"/workflow/inputs/{name}", dtype=str, keep_default_na=False)
 
 
 summary, diffs = compare(read_table("prod_table"), read_table("qc_table"))

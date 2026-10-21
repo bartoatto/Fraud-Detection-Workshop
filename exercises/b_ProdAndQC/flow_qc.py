@@ -1,5 +1,4 @@
 """Flow step 2: QC program. Independently rebuilds the table and returns it."""
-import json
 import os
 import sys
 from pathlib import Path
@@ -12,5 +11,5 @@ from qc_t_dm1 import build_table, plant_difference
 table = plant_difference(build_table(load_adsl()))
 out = Path("/workflow/outputs/table")
 out.parent.mkdir(parents=True, exist_ok=True)
-out.write_text(json.dumps(table.to_dict("records")))  # one line of JSON text
+out.write_text(table.to_csv(index=False))
 print(f"QC table: {len(table)} rows")

@@ -30,7 +30,3 @@ exercises/b_DataProcessingAndExploration/__pycache__/__init__.cpython-310.pyc
 # Study data stays on the NetApp Volume
 *.sas7bdat
 *.xpt
-
-# SAS batch logs and listings
-*.log
-*.lst

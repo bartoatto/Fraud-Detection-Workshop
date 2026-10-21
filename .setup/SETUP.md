@@ -21,8 +21,8 @@ Mount paths: `/domino/netapp-volumes/<name>/` in DFS projects, `/mnt/netapp-volu
 ## 4. Dry run
 - [ ] `python .setup/verify_environment.py` prints PASS
 - [ ] Exercise A notebook runs top to bottom
-- [ ] Exercise B: the single job (`run_t_dm1.py`) succeeds and its status shows Clean on the Jobs screen
-- [ ] Exercise B optional: `launch_job.py` starts the job, and the flow (`workflow.py`) runs and shows status Clean
+- [ ] Exercise B: the single job (`jobs/run_t_dm1.py`) succeeds and its status shows Clean on the Jobs screen
+- [ ] Exercise B optional: `jobs/launch_job.py` starts the job, and the flow (`flow/workflow.py`) runs and shows status Clean
 - [ ] Exercise C: the app publishes, the tabs load, and an approval is recorded
 
 Then restore the volume to its starting state by deleting `tfl/`, `qc/`, `compare/` and `signoff/`, and clear `artifacts/`.

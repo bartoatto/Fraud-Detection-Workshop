@@ -2,7 +2,7 @@
 
 Production, then QC, then the comparison, in that order. Each step is the same program you
 can also run on its own (prod_t_dm1.py, qc_t_dm1.py, compare_t_dm1.py).
-Run as a Domino Job:  python exercises/b_ProdAndQC/run_t_dm1.py
+Run as a Domino Job:  python exercises/b_ProdAndQC/jobs/run_t_dm1.py
 """
 import os
 import sys

@@ -18,7 +18,9 @@
   %global DATA_DIR ADSL_DIR ART_DIR WORK_DIR;
   %local vol root p1 p2 tag gitbased artdir;
 
-  %let vol = cdisc01-study-data;
+  /* Volume name: override with the STUDY_VOLUME_NAME environment variable */
+  %let vol = %sysget(STUDY_VOLUME_NAME);
+  %if %length(&vol) = 0 %then %let vol = cdisc01-study-data;
   %let WORK_DIR = %sysget(DOMINO_WORKING_DIR);
 
   /* DFS projects mount volumes under /domino, Git-based projects under /mnt */

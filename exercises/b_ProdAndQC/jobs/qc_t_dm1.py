@@ -2,7 +2,7 @@
 
 Written without looking at the production code. It builds the same table with plain Python
 loops and the statistics module instead of pandas group-bys, then writes it to qc/tfl/.
-Run as a Domino Job:  python exercises/b_ProdAndQC/qc_t_dm1.py
+Run as a Domino Job:  python exercises/b_ProdAndQC/jobs/qc_t_dm1.py
 
 Presenters can set QC_INTRODUCE_DIFF=1 to plant one wrong number and show the compare job
 catching it.
@@ -17,7 +17,6 @@ sys.path.append(os.environ.get("DOMINO_WORKING_DIR", "."))
 from common import paths
 from common.adam import load_adsl, round_half_up
 
-ARM_NAMES = ["Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"]
 
 
 def pct(count: int, total: int) -> str:
@@ -35,7 +34,9 @@ def stats_rows(values: list[float]) -> list[tuple[str, str]]:
 def build_table(adsl: pd.DataFrame) -> pd.DataFrame:
     records = adsl.to_dict("records")
     safety = [r for r in records if r["SAFFL"] == "Y"]
-    columns = {arm: [r for r in safety if r["ARM"] == arm] for arm in ARM_NAMES}
+    # Treatment arms in the order of their planned treatment number (TRT01PN), read from the data.
+    arm_names = [arm for _, arm in sorted({(r["TRT01PN"], r["ARM"]) for r in safety})]
+    columns = {arm: [r for r in safety if r["ARM"] == arm] for arm in arm_names}
     columns["Total"] = safety
 
     out = [("", "Subjects in population", {c: str(len(rs)) for c, rs in columns.items()})]

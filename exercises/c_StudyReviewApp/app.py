@@ -30,13 +30,13 @@ def qc_status() -> dict | None:
 
 
 st.title("🧪 Study Review Desk")
-st.caption("Protocol CDISCPILOT01 - Safety population")
 
 if not paths.ADSL_FILE.exists():
     st.error(f"ADSL not found at {paths.ADSL_FILE}. Check that the NetApp Volume is attached to the project.")
     st.stop()
 
 adsl = adsl_data()
+st.caption(f"Protocol {adsl['STUDYID'].iloc[0]} - Safety population")
 tab_study, tab_table, tab_signoff = st.tabs(["Study overview", "Table 14.1", "Sign-off"])
 
 with tab_study:

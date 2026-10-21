@@ -32,7 +32,7 @@ The exercises are a small version of the structure a statistical programming tea
 | `qc/adam`, `qc/tfl` independent programs | `qc_t_dm1.py` |
 | `compare_*.sas` (PROC COMPARE) writing `dominostats.json` | `compare_t_dm1.py` |
 | SDTM / ADaM / TFL on NetApp Volumes, read through snapshot tags | one volume, `ADSL_SNAPSHOT_TAG` option |
-| Flows chaining SDTM, ADaM, QC and compare | `exercises/b_ProdAndQC/workflow.py`: production and QC in parallel, then compare (optional to run) |
+| Flows chaining SDTM, ADaM, QC and compare | `exercises/b_ProdAndQC/flow/workflow.py`: production and QC in parallel, then compare (optional to run) |
 | Programs in SAS | Python here; the same ideas apply |
 
 Good questions to expect: how SAS Analytics Pro fits in (supported as a container), how dev and production volumes are separated in the reference repo (interactive sessions write to DEV volumes, batch jobs to PROD), and how Pinnacle 21 validation is run as a job.
@@ -43,7 +43,7 @@ Good questions to expect: how SAS Analytics Pro fits in (supported as a containe
 - **Language:** the exercises are Python. Stats programmers will ask about SAS: the same jobs run SAS programs in a SAS Analytics Pro environment (the reference repo is SAS), and `pandas.read_sas` reads their existing `.sas7bdat` files directly. Domino supports SAS Analytics Pro only.
 - **Project type:** the workshop uses a DFS project. State that Git-backed projects are recommended for real work.
 - **Git:** keep it to best practices. Detailed Git teaching is separate enablement.
-- **Flows:** describe a flow as linking jobs together (production, QC, compare, validation) and show the flow in `exercises/b_ProdAndQC/workflow.py`. Run it only if the group is comfortable with the basics (the volume must have a snapshot tagged `adsl-v1` first).
+- **Flows:** describe a flow as linking jobs together (production, QC, compare, validation) and show the flow in `exercises/b_ProdAndQC/flow/workflow.py`. Run it only if the group is comfortable with the basics (the volume must have a snapshot tagged `adsl-v1` first).
 - **Personas:** stats programmer (not a "developer"), study lead (runs many studies, wants an operational view, uses the app), data lead (RBAC, permissions, NetApp Volumes, snapshots, audit trail).
 - **Governance:** policy = SOP, bundle = deliverable. Approvals are linear and the sign-off trail is what matters. Gates on policies are available on cloud. Show a sample policy and approve it from the presenter screen; share it afterwards.
 - **After each feature:** one slide on how our SCE customers use it.

@@ -4,18 +4,22 @@ Instead of clicking Run Job in the UI, this submits the same job through Domino'
 returns straight away. Watch it under Jobs. Sync your workspace first, because the job runs
 the project's files, not your unsaved edits.
 
-Run from a workspace terminal:  python exercises/b_ProdAndQC/launch_job.py
+Run from a workspace terminal:  python exercises/b_ProdAndQC/jobs/launch_job.py
 """
 import os
 import sys
+from pathlib import Path
 
 from domino import Domino
 
-sys.path.append(os.environ.get("DOMINO_WORKING_DIR", "."))
+PROJECT_DIR = Path(os.environ.get("DOMINO_WORKING_DIR") or Path(__file__).resolve().parents[3])
+sys.path.append(str(PROJECT_DIR))
+from common.config import VOLUME_NAME
 from common.domino_api import find_volume
 
-VOLUME_NAME = "cdisc01-study-data"
-COMMAND = "python exercises/b_ProdAndQC/run_t_dm1.py"
+# The job to run: the run_t_dm1.py next to this script, as a path relative to the project.
+SCRIPT = Path(__file__).resolve().with_name("run_t_dm1.py").relative_to(PROJECT_DIR.resolve())
+COMMAND = f"python {SCRIPT}"
 TITLE = "Table 14.1: production, QC and compare"
 
 project = f"{os.environ['DOMINO_PROJECT_OWNER']}/{os.environ['DOMINO_PROJECT_NAME']}"

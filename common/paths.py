@@ -13,14 +13,14 @@ Volume layout (mirrors a typical SCE study folder):
 
 Environment variables (all optional):
     STUDY_DATA_DIR     use this folder instead of the NetApp volume (for running outside Domino)
+    STUDY_VOLUME_NAME  use a differently named volume (see common/config.py)
     ADSL_SNAPSHOT_TAG  read ADSL from that snapshot tag of the volume, so a run is reproducible
 """
 import json
 import os
 from pathlib import Path
 
-VOLUME_NAME = "cdisc01-study-data"
-MOUNT_ROOTS = ("/domino/netapp-volumes", "/mnt/netapp-volumes")
+from common.config import MOUNT_ROOTS, VOLUME_NAME
 
 PROJECT_DIR = Path(os.environ.get("DOMINO_WORKING_DIR") or Path(__file__).resolve().parents[1])
 # Git-based projects have a separate artifacts store; DFS projects just use a folder in the project.

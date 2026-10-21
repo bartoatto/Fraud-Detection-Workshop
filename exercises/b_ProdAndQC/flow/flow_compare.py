@@ -7,7 +7,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.append(os.environ.get("DOMINO_WORKING_DIR", "."))
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "jobs"))
 from compare_t_dm1 import compare, publish
 
 

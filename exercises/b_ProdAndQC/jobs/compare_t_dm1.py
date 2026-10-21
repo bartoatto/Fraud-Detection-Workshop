@@ -2,7 +2,7 @@
 
 Writes the differences and a summary to compare/ on the NetApp Volume, and publishes the
 headline numbers to dominostats.json so they show on the Jobs screen.
-Run as a Domino Job:  python exercises/b_ProdAndQC/compare_t_dm1.py
+Run as a Domino Job:  python exercises/b_ProdAndQC/jobs/compare_t_dm1.py
 """
 import json
 import os

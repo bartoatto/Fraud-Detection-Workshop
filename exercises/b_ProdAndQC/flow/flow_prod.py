@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 sys.path.append(os.environ.get("DOMINO_WORKING_DIR", "."))
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "jobs"))
 from common.adam import load_adsl
 from prod_t_dm1 import build_table
 

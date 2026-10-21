@@ -2,7 +2,7 @@
 
 Safety population, by treatment arm. Reads ADSL from the NetApp Volume and writes the table
 (CSV and HTML) back to tfl/ on the same volume.
-Run as a Domino Job:  python exercises/b_ProdAndQC/prod_t_dm1.py
+Run as a Domino Job:  python exercises/b_ProdAndQC/jobs/prod_t_dm1.py
 """
 import os
 import sys
@@ -13,7 +13,6 @@ sys.path.append(os.environ.get("DOMINO_WORKING_DIR", "."))
 from common import paths
 from common.adam import load_adsl, round_half_up
 
-ARMS = ["Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"]
 TITLE = "Table 14.1: Summary of Demographic and Baseline Characteristics - Safety Population"
 FOOTNOTE = "Percentages use the number of subjects in each arm as the denominator. Source: ADSL."
 
@@ -38,7 +37,9 @@ def continuous(series: pd.Series) -> dict:
 
 def build_table(adsl: pd.DataFrame) -> pd.DataFrame:
     pop = adsl[adsl["SAFFL"] == "Y"]
-    groups = {arm: pop[pop["ARM"] == arm] for arm in ARMS}
+    # Treatment arms in the order of their planned treatment number (TRT01PN), read from the data.
+    arms = pop[["TRT01PN", "ARM"]].drop_duplicates().sort_values("TRT01PN")["ARM"].tolist()
+    groups = {arm: pop[pop["ARM"] == arm] for arm in arms}
     groups["Total"] = pop
     races = sorted(pop["RACE"].dropna().unique())
     ethnicities = sorted(pop["ETHNIC"].dropna().unique())

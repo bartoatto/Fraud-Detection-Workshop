@@ -26,6 +26,11 @@ Mount paths: `/domino/netapp-volumes/<name>/` in DFS projects, `/mnt/netapp-volu
 
 Then restore the volume to its starting state by deleting `tfl/`, `qc/`, `compare/` and `signoff/`, and clear `artifacts/`.
 
+## 4b. SAS version (optional)
+- [ ] Use a SAS Analytics Pro environment with SAS Studio for the `exercises_sas/` programs, and check its SAS licence is valid.
+- [ ] Run `exercises_sas/a_ExploreADSL/explore_adsl.sas` and the three programs in `b_ProdAndQC` once, and fix anything the log reports. They have not been run yet.
+- [ ] Check the compare job's status on the Jobs screen, and that the app shows the SAS results.
+
 ## 5. Template and access
 - [ ] Publish the project as a project template.
 - [ ] Add attendees (about 20) to the shared Domino deployment. The list comes from the partner contact; users are added through Keycloak.

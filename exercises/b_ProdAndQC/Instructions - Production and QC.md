@@ -13,6 +13,24 @@ The table is Table 14.1, a summary of demographic and baseline characteristics f
    - `qc/tfl/qc_t_dm1.csv` - the QC table
    - `compare/t_dm1_summary.json` - the comparison result
 
+### Optional: start the job from a script
+Instead of clicking Run Job, submit the same job from the workspace terminal with the Domino Python library:
+
+`python exercises/b_ProdAndQC/launch_job.py`
+
+It returns straight away and prints the job number. Watch it under **Jobs**. Sync first, because the job runs the project files, not your unsaved edits.
+
+### Optional: run it as a Flow
+`workflow.py` defines the same work as a Domino Flow: the production and QC programs run **at the same time** as two jobs, and the comparison starts when both have finished. Each step is its own job, and the flow records how they connect.
+
+**Snapshot the data first.** Flow jobs do not get the live volume; they mount a read-only snapshot. Check that the volume has a snapshot tagged `adsl-v1` (Data > NetApp Volumes > your volume > Snapshots), and take one with that tag if it does not. The flow stops with a message if it cannot find it.
+
+Then, from the workspace terminal:
+
+`PYTHONPATH=/mnt/code pyflyte run --remote exercises/b_ProdAndQC/workflow.py table_14_1`
+
+Watch it under **Flows**. The Jobs screen shows the production, QC and compare jobs, with the comparison's Status, Cells compared and Cell differences.
+
 ### Optional: reproducible runs with a snapshot tag
 A snapshot tag freezes the input. Run the production job again, with the command:
 
@@ -31,4 +49,6 @@ Run `env QC_INTRODUCE_DIFF=1 python exercises/b_ProdAndQC/run_t_dm1.py`. The QC 
 
 **Snapshots and tags:** Point-in-time, read-only copies of a NetApp Volume, with a name and a commit message. Snapshots are near-instant and are how a study freezes its input data.
 
-*Talk track:* these three steps form a pipeline. Linking jobs together is a Flow; we show what one looks like but do not run one.
+**Flows:** A workflow that links jobs together, running independent steps in parallel and recording how data moves between them.
+
+*Talk track:* these three steps form a pipeline. Linking jobs together is a Flow. Show the flow graph, and run it only if the group is comfortable with the basics: stats programmers can find flows intimidating.

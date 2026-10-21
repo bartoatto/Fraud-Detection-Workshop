@@ -34,4 +34,5 @@ def find_snapshot(volume_id: str, tag: str) -> dict:
     for snapshot in _get("snapshots"):
         if snapshot.get("volumeId") == volume_id and tag in [t["name"] for t in snapshot.get("tags", [])]:
             return snapshot
-    raise LookupError(f"No snapshot of the volume is tagged '{tag}'.")
+    raise LookupError(f"No snapshot of the volume is tagged '{tag}'. Take a snapshot first (Data > NetApp Volumes > "
+                      f"your volume > Take Snapshot) and give it the tag '{tag}'.")

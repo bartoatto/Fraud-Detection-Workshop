@@ -7,6 +7,10 @@ Flow jobs do not get the project's live volume, so each step mounts a read-only 
 the study volume (the one tagged adsl-v1), which appears at the usual volume path. Nothing is
 written back to the volume: each step passes its table to the next as a file.
 
+Before running it, the data must be snapshotted: the volume needs a snapshot tagged adsl-v1
+(Data > NetApp Volumes > your volume > Take Snapshot). The flow stops with a clear message if
+there is none.
+
 Commit and sync first (flow jobs run the project files, not your unsaved edits), then from a
 workspace terminal:
 

@@ -63,7 +63,7 @@ Model training, experiments and MLflow, model endpoints, launchers and agents. D
 
 ## Open items
 
-- Confirm attendees know Python. If not, build the SAS version of Exercise B on the reference programs and use a SAS Analytics Pro environment.
+- Confirm attendees know Python. If not, a SAS version of the exercises is needed; it is not included (the reference study repository has SAS programs to build from).
 - Get the attendee list and add users.
 - The reference repo includes a Pinnacle 21 style validation step and a Clinical Data Explorer extension; decide whether either belongs in the demo.
 - The notes for the second half of the planning call were not available when this was written, so check them against this plan.

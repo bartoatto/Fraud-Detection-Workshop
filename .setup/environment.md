@@ -6,6 +6,7 @@ Leave all other entries as Default
 ```
 Fraud-Detection-Workshop
 ```
+(The name is kept so existing projects and templates still find it; rename it if you build a new one.)
 
 ### Base Environment / Image:
 
@@ -25,21 +26,14 @@ custom image tag. The original version of this doc pinned a specific registry ta
 that tag may not match what's actually running there. Starting from the platform's own
 already-provisioned Standard Environment sidesteps that mismatch entirely.
 
-**Use a Python 3.12 base.** Domino's model-serving harness still calls
-`configparser.SafeConfigParser`, which Python 3.12 removed, so without the last
-instruction in the Dockerfile an Exercise 4 endpoint fails to start with
-`AttributeError: module 'configparser' has no attribute 'SafeConfigParser'` and
-`*** no app loaded. GAME OVER ***`. That instruction restores the alias and is verified
-working. It writes to a Python 3.12 site-packages path, so on a Python 3.10 base remove
-it - 3.10 still has `SafeConfigParser` and does not need it. If your organisation
-maintains its own Standard Environment (for example one carrying internal
-package-repository settings), start from that.
+Use a **Python 3.12** base. If your organisation maintains its own Standard Environment (for
+example one carrying internal package-repository settings), start from that.
 
 ### Description
 ```
-Fraud Detection Workshop
-Based on a Domino Standard Environment (Py3.10 or Py3.12)
-Jupyter, Jupyterlab, VSCode, Rstudio
+Life Sciences Workshop (CDISC pilot study)
+Based on a Domino Standard Environment (Py3.12) plus Streamlit
+Jupyter, Jupyterlab, VSCode
 ```
 
 ### Visibility
@@ -49,30 +43,17 @@ Globally Accessible
 
 ### Additional Docker File Instructions:
 ```
-# Install uWSGI pre-requisites
-USER root
-RUN apt-get update && apt-get install -y --no-install-recommends gcc && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+# The Standard Environment already has pandas, numpy, matplotlib, seaborn, JupyterLab,
+# python-domino and Flyte with the Domino flows plugin. This adds Streamlit, which runs
+# the Study Review Desk app (Exercise C).
 
-# Add missing library for uWSGI
-ARG LDFLAGS=-fno-lto
-ENV LDFLAGS=-fno-lto
+# Lets the exercises import the shared code in common/ from any folder
 ENV PYTHONPATH="${PYTHONPATH}:/mnt/code:/mnt"
 
-# Install Flask & uWSGI
-# The nbclient/nbconvert version caps that used to be here were dropped: nothing in the
-# workshop imports them, and on a Py3.12 base they downgrade the base image's working
-# Jupyter stack (nbconvert 7.x -> 6.5.4, mistune 3.x -> 0.8.4).
-# ydata_profiling is left unpinned on purpose - any release from 4.7 up works, so an
-# internal mirror can serve whatever it has. It's only used for the EDA report in
-# Exercise B, which the script skips cleanly if the package isn't installed at all.
-# Note that 4.7.x pins numpy<2 and will downgrade numpy/scipy/matplotlib on a Python
-# 3.12 base; the workshop is verified to run on that combination.
-RUN pip install --no-cache-dir "setuptools<81" Flask Flask-Compress Flask-Cors uwsgi six prometheus-client ydata_profiling streamlit st-pages streamlit-extras "lxml[html_clean]"
+USER root
+RUN pip install --no-cache-dir streamlit
 
-# Switch back to the standard non-root user - required for Model API builds, which
-# run Domino's own build steps as whatever user the image ends on. Leaving this as
-# root causes those steps to fail with a permission error.
+# Switch back to the standard non-root user
 USER ubuntu
 ```
 

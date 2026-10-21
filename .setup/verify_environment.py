@@ -12,8 +12,8 @@ REQUIRED = [
 ]
 # Nice to have, but the workshop degrades gracefully without them.
 OPTIONAL = [
-    ("ydata_profiling", "Exercise B skips its EDA report"),
-    ("domino", "python-domino; not used by the exercises"),
+    ("domino", "python-domino; only needed for jobs/launch_job.py"),
+    ("flytekitplugins.domino.task", "Domino flows plugin; only needed for flow/workflow.py"),
 ]
 
 def version(name):

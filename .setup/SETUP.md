@@ -3,7 +3,7 @@
 Do this once, then publish the project as a **project template** so attendees start with the code in place. The study data lives on a NetApp Volume, not in the project.
 
 ## 1. Compute environment
-Use the `Fraud-Detection-Workshop` environment described in `environment.md` (Python 3.12 Domino Standard Environment plus the packages in `Dockerfile`). Attendees need JupyterLab; VS Code is optional. Python only; reading the SAS dataset needs nothing beyond pandas.
+Use the `Fraud-Detection-Workshop` environment described in `environment.md` (a Python 3.12 Domino Standard Environment plus Streamlit, as in `Dockerfile`). Attendees need JupyterLab; VS Code is optional. Python only; reading the SAS dataset needs nothing beyond pandas.
 
 ## 2. NetApp Volume
 - [ ] Create a NetApp Volume named exactly `cdisc01-study-data` (Data > NetApp Volumes > Create Volume; a couple of GB is plenty). The code looks for `<mount>/cdisc01-study-data/`.
@@ -26,11 +26,6 @@ Mount paths: `/domino/netapp-volumes/<name>/` in DFS projects, `/mnt/netapp-volu
 - [ ] Exercise C: the app publishes, the tabs load, and an approval is recorded
 
 Then restore the volume to its starting state by deleting `tfl/`, `qc/`, `compare/` and `signoff/`, and clear `artifacts/`.
-
-## 4b. SAS version (optional)
-- [ ] Use a SAS Analytics Pro environment with SAS Studio for the `exercises_sas/` programs, and check its SAS licence is valid.
-- [ ] Run `exercises_sas/a_ExploreADSL/explore_adsl.sas` and `b_ProdAndQC/run_t_dm1.sas` once, and fix anything the log reports. They have not been run yet.
-- [ ] Check the job's status on the Jobs screen, and that the app shows the SAS results.
 
 ## 5. Template and access
 - [ ] Publish the project as a project template.

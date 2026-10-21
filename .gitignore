@@ -21,3 +21,12 @@
 __pycache__/workflow.cpython-310.pyc
 __pycache__/workflow.cpython-310.pyc
 exercises/b_DataProcessingAndExploration/__pycache__/__init__.cpython-310.pyc
+
+# Study data stays on the NetApp Volume, not in the repo
+*.sas7bdat
+*.xpt
+*.zip
+
+# Study data stays on the NetApp Volume
+*.sas7bdat
+*.xpt

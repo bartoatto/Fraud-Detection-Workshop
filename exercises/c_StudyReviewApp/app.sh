@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Entry point for publishing the Fraud Review Desk as a Domino App.
-# To try it in a workspace first:  PORT=8501 bash exercises/c_ReviewApp/app.sh
+# Entry point for publishing the Study Review Desk as a Domino App.
+# To try it in a workspace first:  PORT=8501 bash exercises/c_StudyReviewApp/app.sh
 
 PORT="${PORT:-${1:-8888}}"
 
 # Run from the project root so the app can import the shared code in common/.
 cd "$(dirname "$0")/../.."
 
-exec streamlit run exercises/c_ReviewApp/app.py \
+exec streamlit run exercises/c_StudyReviewApp/app.py \
   --server.address 0.0.0.0 \
   --server.port "$PORT" \
   --server.enableCORS false \

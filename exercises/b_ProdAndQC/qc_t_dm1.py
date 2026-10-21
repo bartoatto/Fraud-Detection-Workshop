@@ -32,8 +32,8 @@ def stats_rows(values: list[float]) -> list[tuple[str, str]]:
             ("Min - Max", f"{round_half_up(min(vals), 0)} - {round_half_up(max(vals), 0)}")]
 
 
-def main():
-    records = load_adsl().to_dict("records")
+def build_table(adsl: pd.DataFrame) -> pd.DataFrame:
+    records = adsl.to_dict("records")
     safety = [r for r in records if r["SAFFL"] == "Y"]
     columns = {arm: [r for r in safety if r["ARM"] == arm] for arm in ARM_NAMES}
     columns["Total"] = safety
@@ -60,13 +60,20 @@ def main():
     add_continuous("Baseline weight (kg)", "WEIGHTBL")
     add_continuous("Baseline BMI (kg/m2)", "BMIBL")
 
-    table = pd.DataFrame([{"Section": s, "Characteristic": c, **v} for s, c, v in out])
+    return pd.DataFrame([{"Section": s, "Characteristic": c, **v} for s, c, v in out])
 
+
+def plant_difference(table: pd.DataFrame) -> pd.DataFrame:
+    """Presenter demo: change one number when QC_INTRODUCE_DIFF is set."""
     if os.environ.get("QC_INTRODUCE_DIFF"):
         row = table.index[(table["Section"] == "Age (years)") & (table["Characteristic"] == "Median")][0]
         table.loc[row, "Total"] = "99.9"
         print("QC_INTRODUCE_DIFF set: changed Age median (Total) to 99.9")
+    return table
 
+
+def main():
+    table = plant_difference(build_table(load_adsl()))
     paths.ensure(paths.QC_DIR)
     table.to_csv(paths.QC_DM1, index=False)
     print(f"Wrote {paths.QC_DM1} ({len(table)} rows)")

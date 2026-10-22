@@ -25,7 +25,7 @@ It returns straight away and prints the job number. Watch it under **Jobs**. Syn
 ### Optional: run it as a Flow
 `flow/workflow.py` defines the same work as a Domino Flow: the production and QC programs run **at the same time** as two jobs, and the comparison starts when both have finished. Each step is its own job, and the flow records how they connect.
 
-**Snapshot the data first.** Flow jobs do not get the live volume; they mount a read-only snapshot. Check that the volume has a snapshot tagged `adsl-v1` (Data > NetApp Volumes > your volume > Snapshots), and take one with that tag if it does not. The flow stops with a message if it cannot find it.
+**Snapshot the data first.** Flow jobs do not get the live volume; they mount a read-only snapshot. Take a snapshot of the volume once `adsl.sas7bdat` is on it (Data > NetApp Volumes > your volume > Take Snapshot). The flow uses the latest snapshot, and stops with a message if the volume has none.
 
 Then, from the workspace terminal:
 
@@ -34,7 +34,7 @@ Then, from the workspace terminal:
 Watch it under **Flows**. The Jobs screen shows the production, QC and compare jobs, with the comparison's Status, Cells compared and Cell differences.
 
 ### Optional: reproducible runs with a snapshot tag
-A snapshot tag freezes the input. Run the production job again, with the command:
+A snapshot tag freezes the input. Give your snapshot the tag `adsl-v1` (Data > NetApp Volumes > your volume > Snapshots), then run the production job again with the command:
 
 `env ADSL_SNAPSHOT_TAG=adsl-v1 python exercises/b_ProdAndQC/jobs/prod_t_dm1.py`
 

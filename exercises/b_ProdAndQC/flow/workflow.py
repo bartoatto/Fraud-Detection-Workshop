@@ -4,10 +4,10 @@ This is the same work as run_t_dm1.py, but each step is its own job, so the two 
 at the same time and every step is tracked in the flow's lineage graph.
 
 Flow jobs do not get the project's live volume, so each step mounts a read-only snapshot of
-the study volume (the one tagged adsl-v1, set in common/config.py), which appears at the usual volume path. Nothing is
+the study volume (the latest one, or the tag in FLOW_SNAPSHOT_TAG, see common/config.py), which appears at the usual volume path. Nothing is
 written back to the volume: each step passes its table to the next as a file.
 
-Before running it, the data must be snapshotted: the volume needs a snapshot tagged adsl-v1
+Before running it, the data must be snapshotted: the volume needs a snapshot
 (Data > NetApp Volumes > your volume > Take Snapshot). The flow stops with a clear message if
 there is none.
 

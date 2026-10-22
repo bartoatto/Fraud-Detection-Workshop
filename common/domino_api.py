@@ -29,10 +29,13 @@ def find_volume(name: str) -> dict:
     raise LookupError(f"NetApp Volume '{name}' was not found (or you do not have access to it).")
 
 
-def find_snapshot(volume_id: str, tag: str) -> dict:
-    """Return the snapshot of a volume that carries this tag."""
-    for snapshot in _get("snapshots"):
-        if snapshot.get("volumeId") == volume_id and tag in [t["name"] for t in snapshot.get("tags", [])]:
-            return snapshot
-    raise LookupError(f"No snapshot of the volume is tagged '{tag}'. Take a snapshot first (Data > NetApp Volumes > "
-                      f"your volume > Take Snapshot) and give it the tag '{tag}'.")
+def find_snapshot(volume_id: str, tag: str | None = None) -> dict:
+    """Return a snapshot of a volume: the one carrying this tag, or the latest one when no tag is given."""
+    snapshots = [s for s in _get("snapshots") if s.get("volumeId") == volume_id]
+    if tag:
+        snapshots = [s for s in snapshots if tag in [t["name"] for t in s.get("tags") or []]]
+    if not snapshots:
+        wanted = f"tagged '{tag}'" if tag else "at all"
+        raise LookupError(f"No snapshot of the volume {wanted}. Take a snapshot first (Data > NetApp Volumes > "
+                          f"your volume > Take Snapshot).")
+    return max(snapshots, key=lambda s: s["version"])

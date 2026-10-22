@@ -14,11 +14,12 @@ there is none.
 Commit and sync first (flow jobs run the project files, not your unsaved edits), then from a
 workspace terminal:
 
-    PYTHONPATH=$DOMINO_WORKING_DIR pyflyte run --remote exercises/b_ProdAndQC/flow/workflow.py demographics_table
+    pyflyte run --remote exercises/b_ProdAndQC/flow/workflow.py demographics_table
 
 For a Git-based project that should run a branch other than the default, set FLOW_GIT_REF.
 """
 import os
+import sys
 from pathlib import Path
 from typing import TypeVar
 
@@ -26,10 +27,12 @@ from flytekit import workflow
 from flytekit.types.file import FlyteFile
 from flytekitplugins.domino.task import DominoJobConfig, DominoJobTask, GitRef, NetAppVolumeSnapshot
 
+PROJECT_DIR = Path(os.environ.get("DOMINO_WORKING_DIR") or Path(__file__).resolve().parents[3]).resolve()
+sys.path.append(str(PROJECT_DIR))  # so `common` imports without setting PYTHONPATH
+
 from common.config import FLOW_SNAPSHOT_TAG, VOLUME_NAME
 from common.domino_api import find_snapshot, find_volume
 
-PROJECT_DIR = Path(os.environ.get("DOMINO_WORKING_DIR") or Path(__file__).resolve().parents[3]).resolve()
 # The step scripts sit next to this file; their paths are given relative to the project.
 FLOW_DIR = Path(__file__).resolve().parent.relative_to(PROJECT_DIR)
 

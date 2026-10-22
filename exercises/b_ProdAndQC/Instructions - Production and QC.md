@@ -29,7 +29,7 @@ It returns straight away and prints the job number. Watch it under **Jobs**. Syn
 
 Then, from the workspace terminal:
 
-`PYTHONPATH=$DOMINO_WORKING_DIR pyflyte run --remote exercises/b_ProdAndQC/flow/workflow.py demographics_table`
+`pyflyte run --remote exercises/b_ProdAndQC/flow/workflow.py demographics_table`
 
 Watch it under **Flows**. The Jobs screen shows the production, QC and compare jobs, with the comparison's Status, Cells compared and Cell differences.
 

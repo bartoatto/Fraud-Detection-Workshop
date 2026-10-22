@@ -4,11 +4,11 @@ Everything you run, in order. All commands run in a **workspace terminal** in th
 
 ## 0. Before the session (once)
 
-The data file `adsl.sas7bdat` is not in the code bundle. Put it at the **root** of a NetApp Volume named exactly `cdisc01-study-data` (the volume is flat: no subfolders).
+The data file `adsl.sas7bdat` is not in the code bundle. Put it at the **root** of a NetApp Volume named exactly `cdisc01-study-data-ls` (the volume is flat: no subfolders).
 
-1. Data > NetApp Volumes > Create Volume. Name: `cdisc01-study-data`. Give access to the people who will run the workshop.
+1. Data > NetApp Volumes > Create Volume. Name: `cdisc01-study-data-ls`. Give access to the people who will run the workshop.
 2. Attach it to the project: Data > NetApp Volumes > Add Existing Volume.
-3. Start a workspace (the volume mounts at `/domino/netapp-volumes/cdisc01-study-data/`) and copy the file in.
+3. Start a workspace (the volume mounts at `/domino/netapp-volumes/cdisc01-study-data-ls/`) and copy the file in.
 4. On the volume page, choose **Take Snapshot**. The flow reads the latest snapshot, so take it after the file is in place.
 
 Check the setup:
@@ -82,7 +82,7 @@ On the volume, delete `t_dm1.csv`, `t_dm1.html`, `qc_t_dm1.csv`, `t_dm1_compare.
 
 | Message or symptom | Cause and fix |
 |---|---|
-| `NetApp Volume 'cdisc01-study-data' is not mounted` | The job did not get the volume. Start it with `launch_job.py`, which asks for the volume itself. In the Run Job dialog, tick the volume and select **All snapshots**; check the job's Details lists it. |
+| `NetApp Volume 'cdisc01-study-data-ls' is not mounted` | The job did not get the volume. Start it with `launch_job.py`, which asks for the volume itself. In the Run Job dialog, tick the volume and select **All snapshots**; check the job's Details lists it. |
 | `NetApp Volume ... was not found` | The volume name is different, or you do not have access to it. Fix the name or the access. |
 | `No snapshot of the volume ... at all` | Take a snapshot of the volume (Data > NetApp Volumes > Take Snapshot). |
 | `No snapshot ... tagged '<tag>'` | You set `FLOW_SNAPSHOT_TAG` (or ran the tag step) and no snapshot has that tag. Tag one, or leave the variable unset. |

@@ -6,7 +6,7 @@ Do this once, then publish the project as a **project template** so attendees st
 Use the `Fraud-Detection-Workshop` environment described in `environment.md` (a Python 3.12 Domino Standard Environment plus Streamlit, as in `Dockerfile`). Attendees need JupyterLab; VS Code is optional. Python only; reading the SAS dataset needs nothing beyond pandas.
 
 ## 2. NetApp Volume
-- [ ] Create a NetApp Volume named exactly `cdisc01-study-data` (Data > NetApp Volumes > Create Volume; a couple of GB is plenty). The code looks for `<mount>/cdisc01-study-data/`.
+- [ ] Create a NetApp Volume named exactly `cdisc01-study-data-ls` (Data > NetApp Volumes > Create Volume; a couple of GB is plenty). The code looks for `<mount>/cdisc01-study-data-ls/`.
 - [ ] Put `adsl.sas7bdat` directly in the volume (no subfolders; the volume is flat). Mount the volume in a workspace or job and copy the file in.
 - [ ] Take a snapshot (with a commit message) once `adsl.sas7bdat` is on the volume. The flow uses the latest snapshot, so it must exist before the flow runs. Give it the tag `adsl-v1` too if you will run Exercise B's optional snapshot-tag step; set `FLOW_SNAPSHOT_TAG` to make the flow use a tag instead of the latest.
 - [ ] Give attendees access. Exercise B writes its tables and comparison files into the volume, so attendees need Editor access. A shared live volume means everyone writes the same files, which is fine because every run produces the same output; use a separate copy per attendee if you want them isolated.
@@ -15,7 +15,7 @@ Mount paths: `/domino/netapp-volumes/<name>/` in DFS projects, `/mnt/netapp-volu
 
 ## 3. Project
 - [ ] Create a **DFS-backed** project from this repo's contents. DFS avoids Git credentials during a short session; say in the session that Git-backed projects are recommended for real work.
-- [ ] Attach `cdisc01-study-data` to the project (Data > NetApp Volumes > Add Existing Volume).
+- [ ] Attach `cdisc01-study-data-ls` to the project (Data > NetApp Volumes > Add Existing Volume).
 - [ ] Set the project's default environment and hardware tier.
 
 ## 4. Dry run

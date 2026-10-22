@@ -20,7 +20,7 @@ The table is the demographics table, a summary of demographic and baseline chara
    - `t_dm1_compare.csv` and `t_dm1_summary.json` - the comparison result
 
 ### Alternative: start the job from the Run Job dialog
-Click **Run Job**, enter `python exercises/b_ProdAndQC/jobs/run_t_dm1.py`, and on the data step make sure `cdisc01-study-data` is ticked with **All snapshots** selected, and that it is attached to the project (Data > NetApp Volumes). If the job fails with "NetApp Volume 'cdisc01-study-data' is not mounted", the volume was left out: start it with the script above instead.
+Click **Run Job**, enter `python exercises/b_ProdAndQC/jobs/run_t_dm1.py`, and on the data step make sure `cdisc01-study-data-ls` is ticked with **All snapshots** selected, and that it is attached to the project (Data > NetApp Volumes). If the job fails with "NetApp Volume 'cdisc01-study-data-ls' is not mounted", the volume was left out: start it with the script above instead.
 
 ### Optional: run it as a Flow
 `flow/workflow.py` defines the same work as a Domino Flow: the production and QC programs run **at the same time** as two jobs, and the comparison starts when both have finished. Each step is its own job, and the flow records how they connect.

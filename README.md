@@ -8,4 +8,4 @@ A hands-on session on the Domino platform primitives, using the CDISC pilot stud
 | B | `exercises/b_ProdAndQC` | Run the production, QC and compare programs for the demographics table as one Domino Job |
 | C | `exercises/c_StudyReviewApp` | Publish the Study Review Desk dashboard (filters, plots, statistical tests) |
 
-Each folder has an `Instructions` file. The study data lives on the NetApp Volume `cdisc01-study-data`, which is attached to the project, and shared code is in `common/`. The programs write their results back to that volume.
+Each folder has an `Instructions` file. The study data lives on the NetApp Volume `cdisc01-study-data-ls`, which is attached to the project, and shared code is in `common/`. The programs write their results back to that volume.

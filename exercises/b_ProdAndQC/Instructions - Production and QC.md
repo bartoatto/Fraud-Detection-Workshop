@@ -3,24 +3,24 @@ The exercise has two parts. `jobs/` holds the programs and the ways to run them 
 
 Clinical outputs are programmed twice: a **production** programmer builds the table, and a **QC** programmer rebuilds it independently without looking at the first. A third step compares the two. You will run all three together as one Domino **Job**.
 
-The table is the demographics table, a summary of demographic and baseline characteristics for the safety population, by treatment arm. Every program reads ADSL from, and writes its results back to, the NetApp Volume.
+The table is the demographics table, a summary of demographic and baseline characteristics for the safety population, by treatment arm. The job programs read ADSL from, and write their results back to, the NetApp Volume.
 
 ## Exercise Instructions
 
 1. Open `jobs/prod_t_dm1.py` and `jobs/qc_t_dm1.py` in the workspace and skim them. They compute the same table in different ways. Do not modify them.
-2. Sync your changes, then click **Run Job** and enter `python exercises/b_ProdAndQC/jobs/run_t_dm1.py`. This runs the production program, then the QC program, then the comparison, in order. (Each program can also be run as its own Job: `jobs/prod_t_dm1.py`, `jobs/qc_t_dm1.py`, `jobs/compare_t_dm1.py`.)
+2. Sync your changes, then start the job from the workspace terminal:
+
+   `python exercises/b_ProdAndQC/jobs/launch_job.py`
+
+   It submits `jobs/run_t_dm1.py` as a Domino Job and prints the job number. The job runs the production program, then the QC program, then the comparison, in order. (Each program can also be run as its own Job: `jobs/prod_t_dm1.py`, `jobs/qc_t_dm1.py`, `jobs/compare_t_dm1.py`.) The script makes sure the job gets the study volume.
 3. Open **Jobs** and click the job. Watch the logs: you can see the three steps go by. When it finishes, note the **Status**, **Cells compared** and **Cell differences** values that appear on the Jobs screen.
 4. On the NetApp Volume, find the outputs:
    - `t_dm1.csv` and `t_dm1.html` - the production table
    - `qc_t_dm1.csv` - the QC table
-   - `t_dm1_summary.json` - the comparison result
+   - `t_dm1_compare.csv` and `t_dm1_summary.json` - the comparison result
 
-### Optional: start the job from a script
-Instead of clicking Run Job, submit the same job from the workspace terminal with the Domino Python library:
-
-`python exercises/b_ProdAndQC/jobs/launch_job.py`
-
-It returns straight away and prints the job number. Watch it under **Jobs**. Sync first, because the job runs the project files, not your unsaved edits.
+### Alternative: start the job from the Run Job dialog
+Click **Run Job**, enter `python exercises/b_ProdAndQC/jobs/run_t_dm1.py`, and on the data step make sure `cdisc01-study-data` is ticked with **All snapshots** selected, and that it is attached to the project (Data > NetApp Volumes). If the job fails with "NetApp Volume 'cdisc01-study-data' is not mounted", the volume was left out: start it with the script above instead.
 
 ### Optional: run it as a Flow
 `flow/workflow.py` defines the same work as a Domino Flow: the production and QC programs run **at the same time** as two jobs, and the comparison starts when both have finished. Each step is its own job, and the flow records how they connect.
@@ -31,7 +31,7 @@ Then, from the workspace terminal:
 
 `pyflyte run --remote exercises/b_ProdAndQC/flow/workflow.py demographics_table`
 
-Watch it under **Flows**. The Jobs screen shows the production, QC and compare jobs, with the comparison's Status, Cells compared and Cell differences.
+Watch it under **Flows**: open the graph, then click the compare step to read the result (Clean, 120 cells compared, 0 differences) in its logs. The Jobs screen lists the three steps too.
 
 ### Optional: reproducible runs with a snapshot tag
 A snapshot tag freezes the input. Give your snapshot the tag `adsl-v1` (Data > NetApp Volumes > your volume > Snapshots), then run the production job again with the command:
@@ -41,7 +41,7 @@ A snapshot tag freezes the input. Give your snapshot the tag `adsl-v1` (Data > N
 (`env` sets the variable for that one command.) It now reads ADSL from the `adsl-v1` snapshot of the volume, not the live files, so the result can be reproduced later even if the live data changes.
 
 ### Presenter demo: catch a difference
-Run `env QC_INTRODUCE_DIFF=1 python exercises/b_ProdAndQC/jobs/run_t_dm1.py`. The QC step plants one wrong number, the comparison reports the changed cell, and the Jobs screen shows the status as Issues. Run the job again without the variable to clear it.
+Run `QC_INTRODUCE_DIFF=1 python exercises/b_ProdAndQC/jobs/launch_job.py`. The QC step plants one wrong number, the comparison reports the changed cell, and the Jobs screen shows the status as Issues. Run the job again without the variable to clear it.
 
 ## New Domino Concepts
 

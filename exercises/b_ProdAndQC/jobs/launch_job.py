@@ -20,6 +20,8 @@ from common.domino_api import find_volume
 # The job to run: the run_t_dm1.py next to this script, as a path relative to the project.
 SCRIPT = Path(__file__).resolve().with_name("run_t_dm1.py").relative_to(PROJECT_DIR.resolve())
 COMMAND = f"python {SCRIPT}"
+if os.environ.get("QC_INTRODUCE_DIFF"):  # presenter demo: the QC step plants one wrong number
+    COMMAND = f"env QC_INTRODUCE_DIFF=1 {COMMAND}"
 TITLE = "Demographics table: production, QC and compare"
 
 project = f"{os.environ['DOMINO_PROJECT_OWNER']}/{os.environ['DOMINO_PROJECT_NAME']}"
